@@ -4,6 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +24,7 @@ public class Customer {
 	private String customerEmail;
 	private String customerContactNumber; 
 	private String customerPassword; 
-	@OneToOne(mappedBy="customer")
+	@Embedded
 	private Address customerAddress;
 	private Set<String> customerFavourites = new LinkedHashSet<String>();
 	@OneToMany(mappedBy="customer")

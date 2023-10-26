@@ -1,6 +1,12 @@
 package com.fil.RestEnEx1.entities;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Embeddable
 public class Address {
@@ -9,6 +15,7 @@ public class Address {
 	private String area;
 	private String city;
 	private long pincode;
+	
 	public String getHouseNumber() {
 		return houseNumber;
 	}
@@ -57,5 +64,4 @@ public class Address {
 				+ ", pincode=" + pincode + "]";
 	}
 	
-
 }

@@ -5,7 +5,11 @@ import java.util.List;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -13,7 +17,8 @@ import jakarta.persistence.Table;
 @Table
 public class CustomerOrders {
 	@Id
-	private String orderId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long orderId;
 	private String restaurantName;
 	private String tableNumber;
 	private String numberOfPeople;
@@ -21,10 +26,14 @@ public class CustomerOrders {
 	private String paymentStatus;
 	private String restaurantRating;
 	private List<String> itemsOrdered = new ArrayList<String>();
-	public String getOrderId() {
+	@ManyToOne
+    @JoinColumn(name="customerId", nullable=false)
+    private Customer customer;
+	
+	public long getOrderId() {
 		return orderId;
 	}
-	public void setOrderId(String orderId) {
+	public void setOrderId(long orderId) {
 		this.orderId = orderId;
 	}
 	public String getRestaurantName() {
@@ -69,10 +78,15 @@ public class CustomerOrders {
 	public void setItemsOrdered(List<String> itemsOrdered) {
 		this.itemsOrdered = itemsOrdered;
 	}
-	public CustomerOrders(String orderId, String restaurantName, String tableNumber, String numberOfPeople, String bill,
-			String paymentStatus, String restaurantRating, List<String> itemsOrdered) {
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	public CustomerOrders(String restaurantName, String tableNumber, String numberOfPeople, String bill,
+			String paymentStatus, String restaurantRating, List<String> itemsOrdered, Customer customer) {
 		super();
-		this.orderId = orderId;
 		this.restaurantName = restaurantName;
 		this.tableNumber = tableNumber;
 		this.numberOfPeople = numberOfPeople;
@@ -80,17 +94,11 @@ public class CustomerOrders {
 		this.paymentStatus = paymentStatus;
 		this.restaurantRating = restaurantRating;
 		this.itemsOrdered = itemsOrdered;
+		this.customer = customer;
 	}
 	public CustomerOrders() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	@Override
-	public String toString() {
-		return "CustomerOrders [orderId=" + orderId + ", restaurantName=" + restaurantName + ", tableNumber="
-				+ tableNumber + ", numberOfPeople=" + numberOfPeople + ", bill=" + bill + ", paymentStatus="
-				+ paymentStatus + ", restaurantRating=" + restaurantRating + ", itemsOrdered=" + itemsOrdered + "]";
-	}
-	
 
 }

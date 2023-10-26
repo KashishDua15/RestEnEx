@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Embeddable
+
 @Entity
 @Table
 public class CustomerOrders {

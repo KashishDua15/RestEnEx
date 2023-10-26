@@ -1,92 +1,80 @@
 package com.fil.RestEnEx1.entities;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-
+@Entity
+@Table
 public class Owner {
-	
-	private String name;
-	
-	private String contactno;
-	
+  
+	@Id
 	private int ownerId;
-	
+	private String name;
+	private String contactno;
 	private String emailId;
-	
-	private Restaurant restaurant;
 	private String password;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getContactno() {
-		return contactno;
-	}
-
-	public void setContactno(String contactno) {
-		this.contactno = contactno;
-	}
-
+	
+	@OneToOne
+	@JoinColumn(name="restaurantId" , nullable=false)
+	private Restaurant restaurant;
 	public int getOwnerId() {
 		return ownerId;
 	}
-
 	public void setOwnerId(int ownerId) {
 		this.ownerId = ownerId;
 	}
-
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getContactno() {
+		return contactno;
+	}
+	public void setContactno(String contactno) {
+		this.contactno = contactno;
+	}
 	public String getEmailId() {
 		return emailId;
 	}
-
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public Owner(String name, String contactno, int ownerId, String emailId, Restaurant restaurant, String password) {
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+	public Owner(int ownerId, String name, String contactno, String emailId, String password, Restaurant restaurant) {
 		super();
+		this.ownerId = ownerId;
 		this.name = name;
 		this.contactno = contactno;
-		this.ownerId = ownerId;
 		this.emailId = emailId;
-		this.restaurant = restaurant;
 		this.password = password;
+		this.restaurant = restaurant;
 	}
-
 	public Owner() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 	@Override
 	public String toString() {
-		return "Owner [name=" + name + ", contactno=" + contactno + ", ownerId=" + ownerId + ", emailId=" + emailId
-				+ ", restaurant=" + restaurant + ", password=" + password + "]";
+		return "Owner [ownerId=" + ownerId + ", name=" + name + ", contactno=" + contactno + ", emailId=" + emailId
+				+ ", password=" + password + ", restaurant=" + restaurant + "]";
 	}
+	
 	
 
 }

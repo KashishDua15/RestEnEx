@@ -1,116 +1,115 @@
 package com.fil.RestEnEx1.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
-
+@Entity
+@Table
 public class Restaurant {
-
-	private String name;
-	private String area;
-	private String city;
-	private String pincode;
-	private int totalSeats;
-	private int availableSeats;
-	private int mealForTwo;
-	private Menu menu;
+     
+	@Id
+	private String restaurantId;
+	private String restaurantname;
+	private String restaurantarea;
+	private String restaurantcity;
+	private String restaurantpincode;
+	private int restauranttotalSeats;
+	private int restaurantavailableSeats;
+	private int restaurantmealForTwo;
 	private int rating;
-
-	public String getName() {
-		return name;
+	
+	@OneToOne(mappedBy = "restaurant")
+	private Owner owner;
+	public String getRestaurantId() {
+		return restaurantId;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setRestaurantId(String restaurantId) {
+		this.restaurantId = restaurantId;
 	}
-
-	public String getArea() {
-		return area;
+	public String getRestaurantname() {
+		return restaurantname;
 	}
-
-	public void setArea(String area) {
-		this.area = area;
+	public void setRestaurantname(String restaurantname) {
+		this.restaurantname = restaurantname;
 	}
-
-	public String getCity() {
-		return city;
+	public String getRestaurantarea() {
+		return restaurantarea;
 	}
-
-	public void setCity(String city) {
-		this.city = city;
+	public void setRestaurantarea(String restaurantarea) {
+		this.restaurantarea = restaurantarea;
 	}
-
-	public String getPincode() {
-		return pincode;
+	public String getRestaurantcity() {
+		return restaurantcity;
 	}
-
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
+	public void setRestaurantcity(String restaurantcity) {
+		this.restaurantcity = restaurantcity;
 	}
-
-	public int getTotalSeats() {
-		return totalSeats;
+	public String getRestaurantpincode() {
+		return restaurantpincode;
 	}
-
-	public void setTotalSeats(int totalSeats) {
-		this.totalSeats = totalSeats;
+	public void setRestaurantpincode(String restaurantpincode) {
+		this.restaurantpincode = restaurantpincode;
 	}
-
-	public int getAvailableSeats() {
-		return availableSeats;
+	public int getRestauranttotalSeats() {
+		return restauranttotalSeats;
 	}
-
-	public void setAvailableSeats(int availableSeats) {
-		this.availableSeats = availableSeats;
+	public void setRestauranttotalSeats(int restauranttotalSeats) {
+		this.restauranttotalSeats = restauranttotalSeats;
 	}
-
-	public int getMealForTwo() {
-		return mealForTwo;
+	public int getRestaurantavailableSeats() {
+		return restaurantavailableSeats;
 	}
-
-	public void setMealForTwo(int mealForTwo) {
-		this.mealForTwo = mealForTwo;
+	public void setRestaurantavailableSeats(int restaurantavailableSeats) {
+		this.restaurantavailableSeats = restaurantavailableSeats;
 	}
-
-	public Menu getMenu() {
-		return menu;
+	public int getRestaurantmealForTwo() {
+		return restaurantmealForTwo;
 	}
-
-	public void setMenu(Menu menu) {
-		this.menu = menu;
+	public void setRestaurantmealForTwo(int restaurantmealForTwo) {
+		this.restaurantmealForTwo = restaurantmealForTwo;
 	}
-
 	public int getRating() {
 		return rating;
 	}
-
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-
-	public Restaurant(String name, String area, String city, String pincode, int totalSeats, int availableSeats,
-			int mealForTwo, Menu menu, int rating) {
-		super();
-		this.name = name;
-		this.area = area;
-		this.city = city;
-		this.pincode = pincode;
-		this.totalSeats = totalSeats;
-		this.availableSeats = availableSeats;
-		this.mealForTwo = mealForTwo;
-		this.menu = menu;
-		this.rating = rating;
+	public Owner getOwner() {
+		return owner;
 	}
-
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
+	public Restaurant(String restaurantId, String restaurantname, String restaurantarea, String restaurantcity,
+			String restaurantpincode, int restauranttotalSeats, int restaurantavailableSeats, int restaurantmealForTwo,
+			int rating, Owner owner) {
+		super();
+		this.restaurantId = restaurantId;
+		this.restaurantname = restaurantname;
+		this.restaurantarea = restaurantarea;
+		this.restaurantcity = restaurantcity;
+		this.restaurantpincode = restaurantpincode;
+		this.restauranttotalSeats = restauranttotalSeats;
+		this.restaurantavailableSeats = restaurantavailableSeats;
+		this.restaurantmealForTwo = restaurantmealForTwo;
+		this.rating = rating;
+		this.owner = owner;
+	}
 	public Restaurant() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 	@Override
 	public String toString() {
-		return "Resturant [name=" + name + ", area=" + area + ", city=" + city + ", pincode=" + pincode
-				+ ", totalSeats=" + totalSeats + ", availableSeats=" + availableSeats + ", mealForTwo=" + mealForTwo
-				+ ", menu=" + menu + ", rating=" + rating + "]";
+		return "Restaurant [restaurantId=" + restaurantId + ", restaurantname=" + restaurantname + ", restaurantarea="
+				+ restaurantarea + ", restaurantcity=" + restaurantcity + ", restaurantpincode=" + restaurantpincode
+				+ ", restauranttotalSeats=" + restauranttotalSeats + ", restaurantavailableSeats="
+				+ restaurantavailableSeats + ", restaurantmealForTwo=" + restaurantmealForTwo + ", rating=" + rating
+				+ ", owner=" + owner + "]";
 	}
 
+	
 }

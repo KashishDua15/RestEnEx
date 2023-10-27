@@ -32,6 +32,10 @@ public class OwnerServiceImpl implements OwnerService{
 	}
 	
 	public int updateAvailableSeats(String restaurantId,int availableNoOfSeats) {
+		
+		Restaurant res=restaurantDao.findById(restaurantId).get();
+		res.setRestaurantAvailableSeats(availableNoOfSeats);
+		return res.getRestaurantAvailableSeats();
 
 	}
 	

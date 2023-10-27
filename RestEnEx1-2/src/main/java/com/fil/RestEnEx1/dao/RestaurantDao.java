@@ -10,9 +10,6 @@ import com.fil.RestEnEx1.entities.Restaurant;
 
 @Repository
 public interface RestaurantDao extends JpaRepository<Restaurant, String>{
-//	List<String>getAllRestaurantNames();
-//	public Restaurant getRestaurantById(int restaurantId);
-//	Optional<Restaurant> findById(RestaurantDao restaurantDao);
 	
 }
 

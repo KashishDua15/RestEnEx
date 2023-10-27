@@ -5,11 +5,13 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.Restaurant;
 
 public interface CustomerService {
 	
 
+	public Customer customerSignIn(String email, String password);
 	public List<Restaurant> getAllRestaurantNames();
 	public Optional<Restaurant> getRestaurantById(String restaurantId);
 

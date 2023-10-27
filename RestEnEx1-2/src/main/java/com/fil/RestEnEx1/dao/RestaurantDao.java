@@ -12,7 +12,3 @@ import com.fil.RestEnEx1.entities.Restaurant;
 public interface RestaurantDao extends JpaRepository<Restaurant, String>{
 	
 }
-
-
-
-

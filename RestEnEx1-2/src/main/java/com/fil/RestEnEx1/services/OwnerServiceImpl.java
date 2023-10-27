@@ -65,4 +65,9 @@ public class OwnerServiceImpl implements OwnerService{
 		return null;
 		
 	}
+
+	@Override
+	public void ownerSignUp(Owner owner) {
+		ownerDao.save(owner);
+	}
 }

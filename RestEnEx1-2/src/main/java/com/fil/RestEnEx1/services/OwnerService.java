@@ -3,6 +3,7 @@ package com.fil.RestEnEx1.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.Menu;
 import com.fil.RestEnEx1.entities.Order;
 import com.fil.RestEnEx1.entities.Owner;
@@ -22,4 +23,5 @@ public interface OwnerService {
 	public int viewRating(String restaurantId);
 	
 	public Optional<Menu> viewOrder (int orderId);
+	public void ownerSignUp(Owner owner);
 }

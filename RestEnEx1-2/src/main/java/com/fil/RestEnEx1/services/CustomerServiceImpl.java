@@ -38,4 +38,9 @@ public class CustomerServiceImpl implements CustomerService{
 		}
 		return null;
 	}
+
+	@Override
+	public void customerSignUp(Customer customer) {
+		customerDao.save(customer);
+	}
 }

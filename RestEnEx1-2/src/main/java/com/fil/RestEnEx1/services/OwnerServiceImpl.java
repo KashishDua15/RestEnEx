@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.fil.RestEnEx1.dao.OwnerDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
 import com.fil.RestEnEx1.entities.Customer;
-import com.fil.RestEnEx1.entities.Menu;
+import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.Order;
 import com.fil.RestEnEx1.entities.Owner;
 import com.fil.RestEnEx1.entities.Restaurant;
@@ -39,14 +39,17 @@ public class OwnerServiceImpl implements OwnerService{
 
 	}
 	
-	public int updateNoofSeats(String restaurantId) {
-		return 0;
-		
+	public int updateTotalSeats(String restaurantId, int updateTotalSeats) {
+		Restaurant res=restaurantDao.findById(restaurantId).get();
+		res.setRestaurantTotalSeats(updateTotalSeats);
+		return res.getRestaurantTotalSeats();	
 	}
 	
-	public Menu addMenu(Menu menu) {
-		ownerDao.save(menu);
-		return menu;
+
+	
+	public MenuItem addMenu(MenuItem menuItem) {
+		ownerDao.save(menuItem);
+		return menuItem;
 		
 	}
 	

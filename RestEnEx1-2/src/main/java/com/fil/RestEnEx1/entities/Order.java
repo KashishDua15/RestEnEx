@@ -9,7 +9,7 @@ public class Order {
 
 	private int orderId;
 	private int tableNo;
-	private Menu menu;
+	private MenuItem menuItem;
 	private String paymentStatus;
 	private double orderBill;
 	public int getOrderId() {
@@ -24,11 +24,11 @@ public class Order {
 	public void setTableNo(int tableNo) {
 		this.tableNo = tableNo;
 	}
-	public Menu getMenu() {
-		return menu;
+	public MenuItem getMenuItem() {
+		return menuItem;
 	}
-	public void setMenu(Menu menu) {
-		this.menu = menu;
+	public void setMenuItem(MenuItem menuItem) {
+		this.menuItem = menuItem;
 	}
 	public String getPaymentStatus() {
 		return paymentStatus;
@@ -42,11 +42,11 @@ public class Order {
 	public void setOrderBill(double orderBill) {
 		this.orderBill = orderBill;
 	}
-	public Order(int orderId, int tableNo, Menu menu, String paymentStatus, double orderBill) {
+	public Order(int orderId, int tableNo, MenuItem menuItem, String paymentStatus, double orderBill) {
 		super();
 		this.orderId = orderId;
 		this.tableNo = tableNo;
-		this.menu = menu;
+		this.menuItem = menuItem;
 		this.paymentStatus = paymentStatus;
 		this.orderBill = orderBill;
 	}
@@ -56,8 +56,9 @@ public class Order {
 	}
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", tableNo=" + tableNo + ", menu=" + menu + ", paymentStatus="
+		return "Order [orderId=" + orderId + ", tableNo=" + tableNo + ", menuItem=" + menuItem + ", paymentStatus="
 				+ paymentStatus + ", orderBill=" + orderBill + "]";
 	}
+
 	
 }

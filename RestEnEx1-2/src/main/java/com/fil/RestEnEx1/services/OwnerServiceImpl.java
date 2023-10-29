@@ -46,11 +46,10 @@ public class OwnerServiceImpl implements OwnerService{
 	}
 	
 
-	
-	public MenuItem addMenu(MenuItem menuItem) {
-		ownerDao.save(menuItem);
-		return menuItem;
-		
+	public List<MenuItem> addMenu(String restaurantId,List<MenuItem> menuItem) {
+		Restaurant res=restaurantDao.findById(restaurantId).get();
+		res.setRestaurantMenu(menuItem);
+		return res.getRestaurantMenu();
 	}
 	
 	public int viewRating(String restaurantId) {
@@ -59,7 +58,7 @@ public class OwnerServiceImpl implements OwnerService{
 		
 	}
 	
-	public Optional<Menu> viewOrder (int orderId){
+	public Optional<MenuItem> viewOrder (int orderId){
 		return ownerDao.findById(orderId);
 		
 	}

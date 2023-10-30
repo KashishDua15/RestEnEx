@@ -71,24 +71,25 @@ public class MenuItem {
 		this.restaurant = restaurant;
 	}
 
-	public MenuItem(int itemId, String category, String itemName, float itemPrice, Restaurant restaurant) {
-		super();
-		this.itemId = itemId;
-		this.category = category;
-		this.itemName = itemName;
-		this.itemPrice = itemPrice;
-		this.restaurant = restaurant;
-	}
+	
 
 	public MenuItem() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	public MenuItem(int itemId, String category, String itemName, float itemPrice) {
+	super();
+	this.itemId = itemId;
+	this.category = category;
+	this.itemName = itemName;
+	this.itemPrice = itemPrice;
+}
+
 	@Override
 	public String toString() {
 		return "MenuItem [itemId=" + itemId + ", category=" + category + ", itemName=" + itemName + ", itemPrice="
-				+ itemPrice + ", restaurant=" + restaurant + "]";
+				+ itemPrice; // + ", restaurant=" + restaurant + "]";
 	}
 
 	

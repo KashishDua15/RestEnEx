@@ -1,10 +1,13 @@
 package com.fil.RestEnEx1.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,7 +20,8 @@ import jakarta.persistence.Table;
 public class Restaurant {
 
 	@Id
-	private String restaurantId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private long restaurantId; 
 	private String restaurantName;
 	private String restaurantArea;
 	private String restaurantCity;
@@ -30,15 +34,17 @@ public class Restaurant {
 	
 	@OneToMany(mappedBy = "restaurant")
 	private List<MenuItem> restaurantMenu;
+	@OneToMany(mappedBy="restaurant")
+	private List<Order> orderHistory = new ArrayList<Order>();
 
 	@OneToOne(mappedBy = "restaurant")
 	private Owner owner;
 
-	public String getRestaurantId() {
+	public long getRestaurantId() {
 		return restaurantId;
 	}
 
-	public void setRestaurantId(String restaurantId) {
+	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
 	}
 
@@ -122,7 +128,7 @@ public class Restaurant {
 		this.owner = owner;
 	}
 
-	public Restaurant(String restaurantId, String restaurantName, String restaurantArea, String restaurantCity,
+	public Restaurant(long restaurantId, String restaurantName, String restaurantArea, String restaurantCity,
 			String restaurantPincode, int restaurantTotalSeats, int restaurantAvailableSeats, int restaurantMealForTwo,
 			int resturantRating, List<MenuItem> restaurantMenu, Owner owner) {
 		super();
@@ -150,7 +156,10 @@ public class Restaurant {
 				+ restaurantArea + ", restaurantCity=" + restaurantCity + ", restaurantPincode=" + restaurantPincode
 				+ ", restaurantTotalSeats=" + restaurantTotalSeats + ", restaurantAvailableSeats="
 				+ restaurantAvailableSeats + ", restaurantMealForTwo=" + restaurantMealForTwo + ", resturantRating="
-				+ resturantRating + ", restaurantMenu=" + restaurantMenu + ", owner=" + owner + "]";
+				+ resturantRating + ", restaurantMenu=" + restaurantMenu + ", orderHistory=" + orderHistory + ", owner="
+				+ owner + "]";
 	}
+
+	
 
 }

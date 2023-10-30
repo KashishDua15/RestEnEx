@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fil.RestEnEx1.dao.CustomerDao;
+import com.fil.RestEnEx1.dao.OrderDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
 import com.fil.RestEnEx1.entities.Customer;
+import com.fil.RestEnEx1.entities.Order;
 import com.fil.RestEnEx1.entities.Restaurant;
 
 @Service
@@ -17,6 +19,8 @@ public class CustomerServiceImpl implements CustomerService{
 	private RestaurantDao restaurantDao;
 	@Autowired
 	private CustomerDao customerDao;
+	@Autowired
+	private OrderDao orderDao;
 	
 
 //	@Override
@@ -25,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public Optional<Restaurant> getRestaurantById(String restaurantId) {
+	public Optional<Restaurant> getRestaurantById(long restaurantId) {
 		return restaurantDao.findById(restaurantId);
 	}
 
@@ -34,7 +38,10 @@ public class CustomerServiceImpl implements CustomerService{
 		Customer customer = customerDao.findByCustomerEmail(email);
 		if(customer!=null) {
 			if(customer.getCustomerPassword().equals(password))
-				return customer;
+				{
+					
+					return customer;
+				}
 		}
 		return null;
 	}
@@ -42,5 +49,21 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public void customerSignUp(Customer customer) {
 		customerDao.save(customer);
+	}
+
+	@Override
+	public Order bookTable(long restaurantId, long customerId, Order order) {
+		Restaurant restaurant = restaurantDao.findById(restaurantId).get();
+		Customer customer = customerDao.findById(customerId).get();
+		int availableSeats = restaurant.getRestaurantAvailableSeats();
+		if(availableSeats>0) {
+			restaurant.setRestaurantAvailableSeats(availableSeats-1);
+			order.setCustomer(customer);
+			order.setRestaurant(restaurant);
+			orderDao.save(order);
+			return order;
+		}
+		else 
+			return null;
 	}
 }

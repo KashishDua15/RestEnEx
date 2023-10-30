@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fil.RestEnEx1.dao.OrderDao;
 import com.fil.RestEnEx1.dao.OwnerDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
 import com.fil.RestEnEx1.entities.Customer;
@@ -20,6 +21,8 @@ public class OwnerServiceImpl implements OwnerService{
 	
 	@Autowired 
 	private OwnerDao ownerDao;
+	@Autowired 
+	private OrderDao orderDao;
 	
 	@Autowired
 	private RestaurantDao restaurantDao;
@@ -31,7 +34,7 @@ public class OwnerServiceImpl implements OwnerService{
 		
 	}
 	
-	public int updateAvailableSeats(String restaurantId,int availableNoOfSeats) {
+	public int updateAvailableSeats(long restaurantId,int availableNoOfSeats) {
 		
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		res.setRestaurantAvailableSeats(availableNoOfSeats);
@@ -39,29 +42,27 @@ public class OwnerServiceImpl implements OwnerService{
 
 	}
 	
-	public int updateTotalSeats(String restaurantId, int updateTotalSeats) {
+	public int updateTotalSeats(long restaurantId, int updateTotalSeats) {
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		res.setRestaurantTotalSeats(updateTotalSeats);
 		return res.getRestaurantTotalSeats();	
 	}
 	
 
-	public List<MenuItem> addMenu(String restaurantId,List<MenuItem> menuItem) {
+	public List<MenuItem> addMenu(long restaurantId,List<MenuItem> menuItem) {
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		res.setRestaurantMenu(menuItem);
 		return res.getRestaurantMenu();
 	}
 	
-	public int viewRating(String restaurantId) {
+	public int getRating(long restaurantId) {
 		
 		Restaurant res = restaurantDao.findById(restaurantId).get();
-		return res.getResturantRating();
-		
-		
+		return res.getResturantRating();	
 	}
 	
-	public List<MenuItem> viewOrder (int orderId){
-		return ownerDao.findById(orderId).get();
+	public Order getOrder (long orderId){
+		return orderDao.findById(orderId).get();
 		
 	}
 
@@ -80,4 +81,12 @@ public class OwnerServiceImpl implements OwnerService{
 	public void ownerSignUp(Owner owner) {
 		ownerDao.save(owner);
 	}
+
+	@Override
+	public List<Order> getAllOrders(Order order) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

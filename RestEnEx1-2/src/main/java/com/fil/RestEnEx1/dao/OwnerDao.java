@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.fil.RestEnEx1.entities.Owner;
 
 @Repository
-public interface OwnerDao extends JpaRepository<Owner, Integer>{
+public interface OwnerDao extends JpaRepository<Owner, Long>{
 	public Owner findByEmailId(String email);
 	
 }

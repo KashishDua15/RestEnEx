@@ -14,11 +14,11 @@ public interface OwnerService {
 	public void ownerSignUp(Owner owner);
 	public Owner ownerSignIn(String email, String password);
 	public Restaurant addRestaurant(Restaurant restaurant);
-	public int updateAvailableSeats(String restaurantId,int availableNoOfSeats);
-	public int updateTotalSeats(String restaurantId,int updateTotalSeats);
-	public List<MenuItem> addMenu(MenuItem menuItem);
-	public int getRating(String restaurantId);
-	public Order getOrderById (int orderId);
+	public int updateAvailableSeats(long restaurantId,int availableNoOfSeats);
+	public int updateTotalSeats(long restaurantId,int updateTotalSeats);
+	public List<MenuItem> addMenu(long restaurantId,List<MenuItem> menuItem);
+	public int getRating(long restaurantId);
+	public Order getOrder (long orderId);
 	public List<Order> getAllOrders(Order order);
 	
 }

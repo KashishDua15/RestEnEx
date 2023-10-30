@@ -14,9 +14,9 @@ public interface OwnerService {
 	public void ownerSignUp(Owner owner);
 	public Owner ownerSignIn(String email, String password);
 	public Restaurant addRestaurant(Restaurant restaurant);
-	public int updateAvailableSeats(long restaurantId,int availableNoOfSeats);
-	public int updateTotalSeats(long restaurantId,int updateTotalSeats);
-	public List<MenuItem> addMenu(long restaurantId,List<MenuItem> menuItem);
+	public Restaurant updateAvailableSeats(long restaurantId,int availableNoOfSeats);
+	public Restaurant updateTotalSeats(long restaurantId,int updateTotalSeats);
+	public void addMenuItem(long restaurantId,MenuItem menuItem);
 	public int getRating(long restaurantId);
 	public Order getOrder (long orderId);
 	public List<Order> getAllOrders();

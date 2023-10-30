@@ -32,13 +32,14 @@ public class Restaurant {
 	private int resturantRating;
 
 	
-	@OneToMany(mappedBy = "restaurant")
-	private List<MenuItem> restaurantMenu;
+//	private MenuItem restaurantMenu;
 	@OneToMany(mappedBy="restaurant")
 	private List<Order> orderHistory = new ArrayList<Order>();
 
-	@OneToOne(mappedBy = "restaurant")
-	private Owner owner;
+//	@OneToOne
+//	@JoinColumn(name="ownerId" , nullable=false)
+//	private Owner owner;
+
 
 	public long getRestaurantId() {
 		return restaurantId;
@@ -112,43 +113,77 @@ public class Restaurant {
 		this.resturantRating = resturantRating;
 	}
 
-	public List<MenuItem> getRestaurantMenu() {
-		return restaurantMenu;
-	}
+//	public List<MenuItem> getRestaurantMenu() {
+//		return restaurantMenu;
+//	}
+//
+//	public void setRestaurantMenu(List<MenuItem> restaurantMenu) {
+//		this.restaurantMenu = restaurantMenu;
+//	}
 
-	public void setRestaurantMenu(List<MenuItem> restaurantMenu) {
-		this.restaurantMenu = restaurantMenu;
-	}
+//	public Owner getOwner() {
+//		return owner;
+//	}
+//
+//	public void setOwner(Owner owner) {
+//		this.owner = owner;
+//	}
 
-	public Owner getOwner() {
-		return owner;
-	}
+//	public Restaurant(long restaurantId, String restaurantName, String restaurantArea, String restaurantCity,
+//			String restaurantPincode, int restaurantTotalSeats, int restaurantAvailableSeats, int restaurantMealForTwo,
+//			int resturantRating, List<MenuItem> restaurantMenu) { //, Owner owner) {
+//		super();
+//		this.restaurantId = restaurantId;
+//		this.restaurantName = restaurantName;
+//		this.restaurantArea = restaurantArea;
+//		this.restaurantCity = restaurantCity;
+//		this.restaurantPincode = restaurantPincode;
+//		this.restaurantTotalSeats = restaurantTotalSeats;
+//		this.restaurantAvailableSeats = restaurantAvailableSeats;
+//		this.restaurantMealForTwo = restaurantMealForTwo;
+//		this.resturantRating = resturantRating;
+//		this.restaurantMenu = restaurantMenu;
+////		this.owner = owner;
+//	}
+	
+	
 
-	public void setOwner(Owner owner) {
-		this.owner = owner;
-	}
-
-	public Restaurant(long restaurantId, String restaurantName, String restaurantArea, String restaurantCity,
-			String restaurantPincode, int restaurantTotalSeats, int restaurantAvailableSeats, int restaurantMealForTwo,
-			int resturantRating, List<MenuItem> restaurantMenu, Owner owner) {
-		super();
-		this.restaurantId = restaurantId;
-		this.restaurantName = restaurantName;
-		this.restaurantArea = restaurantArea;
-		this.restaurantCity = restaurantCity;
-		this.restaurantPincode = restaurantPincode;
-		this.restaurantTotalSeats = restaurantTotalSeats;
-		this.restaurantAvailableSeats = restaurantAvailableSeats;
-		this.restaurantMealForTwo = restaurantMealForTwo;
-		this.resturantRating = resturantRating;
-		this.restaurantMenu = restaurantMenu;
-		this.owner = owner;
-	}
 
 	public Restaurant() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	public Restaurant(long restaurantId, String restaurantName, String restaurantArea, String restaurantCity,
+		String restaurantPincode, int restaurantTotalSeats, int restaurantAvailableSeats, int restaurantMealForTwo,
+		int resturantRating) {
+	super();
+	this.restaurantId = restaurantId;
+	this.restaurantName = restaurantName;
+	this.restaurantArea = restaurantArea;
+	this.restaurantCity = restaurantCity;
+	this.restaurantPincode = restaurantPincode;
+	this.restaurantTotalSeats = restaurantTotalSeats;
+	this.restaurantAvailableSeats = restaurantAvailableSeats;
+	this.restaurantMealForTwo = restaurantMealForTwo;
+	this.resturantRating = resturantRating;
+}
+
+//	public Restaurant(long restaurantId, String restaurantName, String restaurantArea, String restaurantCity,
+//			String restaurantPincode, int restaurantTotalSeats, int restaurantAvailableSeats, int restaurantMealForTwo,
+//			int resturantRating, List<MenuItem> restaurantMenu) {
+//		super();
+//		this.restaurantId = restaurantId;
+//		this.restaurantName = restaurantName;
+//		this.restaurantArea = restaurantArea;
+//		this.restaurantCity = restaurantCity;
+//		this.restaurantPincode = restaurantPincode;
+//		this.restaurantTotalSeats = restaurantTotalSeats;
+//		this.restaurantAvailableSeats = restaurantAvailableSeats;
+//		this.restaurantMealForTwo = restaurantMealForTwo;
+//		this.resturantRating = resturantRating;
+//		this.restaurantMenu = restaurantMenu;
+//	}
 
 	@Override
 	public String toString() {
@@ -156,8 +191,8 @@ public class Restaurant {
 				+ restaurantArea + ", restaurantCity=" + restaurantCity + ", restaurantPincode=" + restaurantPincode
 				+ ", restaurantTotalSeats=" + restaurantTotalSeats + ", restaurantAvailableSeats="
 				+ restaurantAvailableSeats + ", restaurantMealForTwo=" + restaurantMealForTwo + ", resturantRating="
-				+ resturantRating + ", restaurantMenu=" + restaurantMenu + ", orderHistory=" + orderHistory + ", owner="
-				+ owner + "]";
+				+ resturantRating; // + ", restaurantMenu=" + restaurantMenu + ", orderHistory=" + orderHistory;
+		// + ", owner="	+ owner + "]";
 	}
 
 	

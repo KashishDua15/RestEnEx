@@ -19,6 +19,6 @@ public interface OwnerService {
 	public List<MenuItem> addMenu(long restaurantId,List<MenuItem> menuItem);
 	public int getRating(long restaurantId);
 	public Order getOrder (long orderId);
-	public List<Order> getAllOrders(Order order);
+	public List<Order> getAllOrders();
 	
 }

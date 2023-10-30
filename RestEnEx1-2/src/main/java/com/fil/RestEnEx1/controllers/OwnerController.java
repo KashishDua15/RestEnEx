@@ -27,6 +27,10 @@ public class OwnerController {
 	@Autowired
 	private OwnerService ownerService;
 	
+	@GetMapping("/owner/signup")
+	public String ownerSignUp() {
+		return"SignUpOwner";
+	}
 	@PostMapping("/owner/signup")
 	public ResponseEntity<HttpStatus> ownerSignUp(@RequestBody Owner owner){
 		ownerService.ownerSignUp(owner);
@@ -34,7 +38,7 @@ public class OwnerController {
 		}
 	
 	@GetMapping("/owner/signin")
-	public String ownerSignIn(Model model) {
+	public String ownerSignIn() {
 		return"SignInOwner";
 		}
 	

@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.Owner;
@@ -23,6 +27,9 @@ import com.fil.RestEnEx1.services.OwnerService;
 
 @Controller
 public class OwnerController {
+	
+	ObjectMapper mapper = new ObjectMapper();
+
 	
 	@Autowired
 	private OwnerService ownerService;
@@ -50,20 +57,19 @@ public class OwnerController {
 	}
 	
 	@PostMapping("/owner/addrestaurant")
-	public ResponseEntity<HttpStatus> addRestaurant(@RequestParam Restaurant restaurant){
+	public ResponseEntity<HttpStatus> addRestaurant(@RequestBody Restaurant restaurant){
 		if(ownerService.addRestaurant(restaurant)==null)
 		return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	
 	}
 	
-	@PostMapping("/owner/addmenu")
-	public ResponseEntity<HttpStatus> addMenu(@RequestParam int restaurantId,@RequestParam List<MenuItem> menuItem){
-		if(ownerService.addMenu(restaurantId, menuItem)!=null) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-		}else {
-			return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
-		}
+	@PostMapping("/owner/addmenu/{restaurantId}")
+	public String  addMenu(@PathVariable long restaurantId,@RequestBody MenuItem menuItem){
+		System.out.println(restaurantId);
+		ownerService.addMenuItem(restaurantId, menuItem);
+		return "menu added successfully";
+		
 	}
 	
 	@GetMapping("/owner/getOrder/{orderId}")
@@ -76,15 +82,36 @@ public class OwnerController {
 	}
 	
 	@PostMapping("owner/updateavailableseat/{restaurantId}")
-	public ResponseEntity<HttpStatus> updateAvailableSeats(@RequestParam long restaurantId,int availableNoOfSeats){
-		ownerService.updateAvailableSeats(restaurantId, availableNoOfSeats);
+	public ResponseEntity<HttpStatus> updateAvailableSeats(@PathVariable long restaurantId,@RequestBody String availableNoOfSeats){
+		
+		try {
+			JsonNode availableSeat = mapper.readTree(availableNoOfSeats);
+			ownerService.updateAvailableSeats(restaurantId, Integer.parseInt(availableSeat.get("restaurantAvailableSeats").asText()));
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		
 	}
 	
 	@PostMapping("owner/updatetotalseat/{restaurantId}")
-	public ResponseEntity<HttpStatus> updateTotalSeats(@RequestParam long restaurantId,@RequestParam int updateTotalSeats){
-		ownerService.updateTotalSeats(restaurantId, updateTotalSeats);
+	public ResponseEntity<HttpStatus> updateTotalSeats(@PathVariable long restaurantId,@RequestBody String updateTotalSeats){
+		
+		try {
+			JsonNode totalSeat = mapper.readTree(updateTotalSeats);
+			ownerService.updateAvailableSeats(restaurantId, Integer.parseInt(totalSeat.get("restaurantTotalSeats").asText()));
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 	
@@ -94,7 +121,6 @@ public class OwnerController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		
 	}
-
 }
 
 

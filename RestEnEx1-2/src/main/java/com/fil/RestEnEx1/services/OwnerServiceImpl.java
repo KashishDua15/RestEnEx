@@ -65,6 +65,12 @@ public class OwnerServiceImpl implements OwnerService{
 		return orderDao.findById(orderId).get();
 		
 	}
+	
+	public List<Order> getAllOrder (long orderId){
+		return orderDao.findAll();
+		
+	}
+	
 
 	@Override
 	public Owner ownerSignIn(String email, String password) {

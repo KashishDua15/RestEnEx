@@ -26,10 +26,10 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
-
+	
 	@GetMapping("/customer/signup")
-	public String ownerSignIn() {
-		return "SignUpCustomer ";
+	public String customerSignUp() {
+		return "SignUpCustomer";
 	}
 
 	@PostMapping("/customer/signup")
@@ -37,7 +37,12 @@ public class CustomerController {
 		customerService.customerSignUp(customer);
 		return "SignUpCustomer";
 	}
-
+	
+	@GetMapping("/customer/signin")
+	public String ownerSignIn() {
+		return "SignInCustomer";
+	}
+	
 	@PostMapping("/customer/signin")
 	public String customerSignIn(@RequestParam String email, @RequestParam String password) {
 		customerService.customerSignIn(email, password);

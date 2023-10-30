@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,17 +21,22 @@ import com.fil.RestEnEx1.entities.Owner;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.OwnerService;
 
-@RestController
+@Controller
 public class OwnerController {
 	
 	@Autowired
 	private OwnerService ownerService;
-
+	
 	@PostMapping("/owner/signup")
 	public ResponseEntity<HttpStatus> ownerSignUp(@RequestBody Owner owner){
 		ownerService.ownerSignUp(owner);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK );
-	}
+		}
+	
+	@GetMapping("/owner/signin")
+	public String ownerSignIn(Model model) {
+		return"SignInOwner";
+		}
 	
 	@PostMapping("/owner/signin")
 	public ResponseEntity<HttpStatus> ownerSignIn(@RequestParam String email, @RequestParam String password){

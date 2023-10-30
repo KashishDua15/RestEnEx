@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fil.RestEnEx1.entities.Customer;
+import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.Owner;
+import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.OwnerService;
 
 @RestController
@@ -35,7 +37,49 @@ public class OwnerController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK );
 	}
+	
+	@PostMapping("/owner/addrestaurant")
+	public ResponseEntity<HttpStatus> addRestaurant(@RequestParam Restaurant restaurant){
+		if(ownerService.addRestaurant(restaurant)==null)
+		return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	
+	}
+	
+	@PostMapping("/owner/addmenu")
+	public ResponseEntity<HttpStatus> addMenu(@RequestParam int restaurantId,@RequestParam List<MenuItem> menuItem){
+		if(ownerService.addMenu(restaurantId, menuItem)!=null) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	@GetMapping("/owner/getOrder/{orderId}")
+	public ResponseEntity<HttpStatus> getOrder(@RequestParam long orderId){
+		if(ownerService.getOrder(orderId)!=null) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	@PostMapping("owner/updateavailableseat/{restaurantId}")
+	public ResponseEntity<HttpStatus> updateAvailableSeats(@RequestParam long restaurantId,int availableNoOfSeats){
+		ownerService.updateAvailableSeats(restaurantId, availableNoOfSeats);
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("owner/updatetotalseat/{restaurantId}")
+	public ResponseEntity<HttpStatus> updateTotalSeats(@RequestParam long restaurantId,@RequestParam int updateTotalSeats){
+		ownerService.updateTotalSeats(restaurantId, updateTotalSeats);
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	}
+	
+
 }
+
 
 
 

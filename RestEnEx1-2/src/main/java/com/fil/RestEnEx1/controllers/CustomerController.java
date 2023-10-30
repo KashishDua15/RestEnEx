@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fil.RestEnEx1.entities.Customer;
+import com.fil.RestEnEx1.entities.Order;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.CustomerService;
 
@@ -43,7 +44,7 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/allNames/{restaurantId}")
-	public ResponseEntity<Optional<Restaurant>> getRestaurantById(@PathVariable String restaurantId){
+	public ResponseEntity<Optional<Restaurant>> getRestaurantById(@PathVariable long restaurantId){
 		Optional<Restaurant> restaurant = customerService.getRestaurantById(restaurantId);
 		if(restaurant != null) {
 			return ResponseEntity.ok(restaurant);}
@@ -51,7 +52,18 @@ public class CustomerController {
 				return ResponseEntity.notFound().build();
 			}
 		}
+
+	@PostMapping("{customerId}/restaurants/{restaurantId}/booktable")
+	public ResponseEntity<HttpStatus> bookTable(@PathVariable long customerId,@PathVariable long restaurantId,@RequestBody Order order){
+		Order orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
+		if(orderConfirmed != null) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR );
+		}
 	}
+}
 
 
 

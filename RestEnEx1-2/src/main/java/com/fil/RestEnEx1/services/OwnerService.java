@@ -11,19 +11,14 @@ import com.fil.RestEnEx1.entities.Restaurant;
 
 public interface OwnerService {
 	
+	public void ownerSignUp(Owner owner);
 	public Owner ownerSignIn(String email, String password);
 	public Restaurant addRestaurant(Restaurant restaurant);
-	
 	public int updateAvailableSeats(String restaurantId,int availableNoOfSeats);
-	
 	public int updateTotalSeats(String restaurantId,int updateTotalSeats);
-	
 	public List<MenuItem> addMenu(MenuItem menuItem);
+	public int getRating(String restaurantId);
+	public Order getOrderById (int orderId);
+	public List<Order> getAllOrders(Order order);
 	
-	public int viewRating(String restaurantId);
-	
-	public Order viewOrderById (int orderId);
-	
-	public List<Order> viewAllOrders(Order order);
-	public void ownerSignUp(Owner owner);
 }

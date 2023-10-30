@@ -26,8 +26,8 @@ public class OwnerController {
 	private OwnerService ownerService;
 
 	@PostMapping("/owner/signup")
-	public ResponseEntity<HttpStatus> customerSignUp(@RequestBody Owner customer){
-		ownerService.ownerSignUp(customer);
+	public ResponseEntity<HttpStatus> ownerSignUp(@RequestBody Owner owner){
+		ownerService.ownerSignUp(owner);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK );
 	}
 	
@@ -77,6 +77,12 @@ public class OwnerController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 	
+	@GetMapping("owner/getAllOrders")
+	public ResponseEntity<HttpStatus> getAllOrder(){
+		ownerService.getAllOrders();
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		
+	}
 
 }
 

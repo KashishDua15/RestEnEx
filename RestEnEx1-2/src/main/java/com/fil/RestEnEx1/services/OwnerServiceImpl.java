@@ -66,7 +66,7 @@ public class OwnerServiceImpl implements OwnerService{
 		
 	}
 	
-	public List<Order> getAllOrder (long orderId){
+	public List<Order> getAllOrders(){
 		return orderDao.findAll();
 		
 	}
@@ -86,12 +86,6 @@ public class OwnerServiceImpl implements OwnerService{
 	@Override
 	public void ownerSignUp(Owner owner) {
 		ownerDao.save(owner);
-	}
-
-	@Override
-	public List<Order> getAllOrders(Order order) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 

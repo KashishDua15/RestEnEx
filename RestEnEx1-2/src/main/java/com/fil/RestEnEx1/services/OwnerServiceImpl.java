@@ -53,13 +53,15 @@ public class OwnerServiceImpl implements OwnerService{
 	}
 	
 	public int viewRating(String restaurantId) {
-		return 0;
+		
+		Restaurant res = restaurantDao.findById(restaurantId).get();
+		return res.getResturantRating();
 		
 		
 	}
 	
-	public Optional<MenuItem> viewOrder (int orderId){
-		return ownerDao.findById(orderId);
+	public List<MenuItem> viewOrder (int orderId){
+		return ownerDao.findById(orderId).get();
 		
 	}
 

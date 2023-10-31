@@ -1,6 +1,8 @@
 package com.fil.RestEnEx1.entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table
-public class RestEnExOrders {
+public class CustomerOrders {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID orderId;
@@ -27,13 +29,12 @@ public class RestEnExOrders {
 	private String paymentStatus;
 	private String restaurantRating;
 	private List<String> itemsOrdered = new ArrayList<String>();
+	private Date dateOrdered;
+	private UUID restaurant_id;
 	@ManyToOne
     @JoinColumn(name="customerId", nullable=false)
     private Customer customer;
 	
-	@ManyToOne
-    @JoinColumn(name="restaurantId", nullable=false)
-    private Restaurant restaurant;
 	public UUID getOrderId() {
 		return orderId;
 	}
@@ -88,14 +89,24 @@ public class RestEnExOrders {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	public Restaurant getRestaurant() {
-		return restaurant;
+
+	public Date getDateOrdered() {
+		return dateOrdered;
 	}
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public void setDateOrdered(Date dateOrdered) {
+		this.dateOrdered = dateOrdered;
 	}
-	public RestEnExOrders(String restaurantName, String tableNumber, String numberOfPeople, String bill,
-			String paymentStatus, String restaurantRating, List<String> itemsOrdered, Customer customer, Restaurant restaurant) {
+	
+	public UUID getRestaurant_id() {
+		return restaurant_id;
+	}
+	public void setRestaurant_id(UUID restaurant_id) {
+		this.restaurant_id = restaurant_id;
+	}
+	
+	public CustomerOrders(String restaurantName, String tableNumber, String numberOfPeople, String bill,
+			String paymentStatus, String restaurantRating, List<String> itemsOrdered, Date dateOrdered,
+			UUID restaurant_id, Customer customer) {
 		super();
 		this.restaurantName = restaurantName;
 		this.tableNumber = tableNumber;
@@ -104,10 +115,11 @@ public class RestEnExOrders {
 		this.paymentStatus = paymentStatus;
 		this.restaurantRating = restaurantRating;
 		this.itemsOrdered = itemsOrdered;
+		this.dateOrdered = dateOrdered;
+		this.restaurant_id = restaurant_id;
 		this.customer = customer;
-		this.restaurant = restaurant;
 	}
-	public RestEnExOrders() {
+	public CustomerOrders() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -116,7 +128,7 @@ public class RestEnExOrders {
 		return "Order [orderId=" + orderId + ", restaurantName=" + restaurantName + ", tableNumber=" + tableNumber
 				+ ", numberOfPeople=" + numberOfPeople + ", bill=" + bill + ", paymentStatus=" + paymentStatus
 				+ ", restaurantRating=" + restaurantRating + ", itemsOrdered=" + itemsOrdered + ", customer=" + customer
-				+ ", restaurant=" + restaurant + "]";
+				+ ", restaurant=" + "]";
 	}
 	
 

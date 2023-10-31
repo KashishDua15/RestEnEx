@@ -34,8 +34,6 @@ public class Restaurant {
 
 	
 //	private MenuItem restaurantMenu;
-	@OneToMany(mappedBy="restaurant")
-	private List<RestEnExOrders> orderHistory = new ArrayList<RestEnExOrders>();
 
 //	@OneToOne
 //	@JoinColumn(name="ownerId" , nullable=false)

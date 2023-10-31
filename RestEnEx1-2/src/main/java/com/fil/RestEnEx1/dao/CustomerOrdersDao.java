@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.fil.RestEnEx1.entities.RestEnExOrders;
+import com.fil.RestEnEx1.entities.CustomerOrders;
 
 @Repository
-public interface RestEnExOrdersDao extends JpaRepository<RestEnExOrders, UUID> {
-//	@Query(value="SELECT * FROM restenx_orders WHERE customer_id=UUID_TO_BIN(?1)",nativeQuery=true)
-//	public List<Order> findAllByCustomerId(String customerId);
+public interface CustomerOrdersDao extends JpaRepository<CustomerOrders, UUID> {
+	@Query(value="SELECT * FROM customer_orders WHERE customer_id=?1 ORDER BY date_ordered DESC",nativeQuery=true)
+	public List<CustomerOrders> findAllByCustomerId(UUID customerId);
 //	@Query(value="SELECT * FROM restenx_orders WHERE payment_status=?1",nativeQuery=true)
 //	public List<Order> findAllByPaymentStatus(String status);
 

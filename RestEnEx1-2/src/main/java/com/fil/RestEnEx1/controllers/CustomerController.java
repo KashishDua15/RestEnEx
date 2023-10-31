@@ -20,15 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fil.RestEnEx1.dao.CustomerDao;
 import com.fil.RestEnEx1.entities.Customer;
-import com.fil.RestEnEx1.entities.RestEnExOrders;
+import com.fil.RestEnEx1.entities.CustomerOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.CustomerService;
 import com.fil.RestEnEx1.services.OwnerService;
 
 @Controller
 public class CustomerController {
-    
-	CustomerDao customerDao;
 	
 	@Autowired
 	private CustomerService customerService;
@@ -79,8 +77,8 @@ public class CustomerController {
 	}
 
 	@PostMapping("/{customerId}/restaurants/{restaurantId}/booktable")
-	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody RestEnExOrders order) {
-		RestEnExOrders orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
+	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody CustomerOrders order) {
+		CustomerOrders orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
 		if(orderConfirmed==null)
 			return null;
 		return "bookTable";
@@ -89,7 +87,7 @@ public class CustomerController {
 	
 	@GetMapping("/{customerId}/repeatOrder")
 	public String repeatLastOrder(@PathVariable UUID customerId) {
-		RestEnExOrders orderConfirmed = customerService.repeatOrder(customerId);
+		CustomerOrders orderConfirmed = customerService.repeatOrder(customerId);
 		if(orderConfirmed==null)
 			return null;
 		return "bookTable";

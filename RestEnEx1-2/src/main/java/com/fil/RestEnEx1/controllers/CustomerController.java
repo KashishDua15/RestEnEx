@@ -1,6 +1,5 @@
 package com.fil.RestEnEx1.controllers;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,13 +31,18 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	
+	@GetMapping("/home")
+	public String home() {
+		return"index";
+	}
+	
 	@GetMapping("/customer/signup")
 	public String customerSignUp() {
 		return "SignUpCustomer";
 	}
 
 	@PostMapping("/customer/signup")
-	public String customerSignUp(@RequestBody Customer customer) {
+	public String customerSignUp(@ModelAttribute("customer") Customer customer) {
 		customerService.customerSignUp(customer);
 		return "SignUpCustomer";
 	}
@@ -48,10 +53,13 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customer/signin")
-	public String customerSignIn(@RequestBody LinkedHashMap<String, String> object) {
-		if(customerService.customerSignIn(object.get("email").toString(), object.get("password").toString())==null)
-			return "";
-		return "customersignin";
+	public String customerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword) {
+	Customer customer=	customerService.customerSignIn(customerEmail, customerPassword);
+	if (customer != null) {
+        return "SignInCustomer"; 
+    } else {
+        return "error"; 
+    }
 	}
 
 	@GetMapping("/allNames")
@@ -67,21 +75,20 @@ public class CustomerController {
 	}
 
 	@PostMapping("/{customerId}/restaurants/{restaurantId}/booktable")
-	public RestEnExOrders bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody RestEnExOrders order) {
+	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody RestEnExOrders order) {
 		RestEnExOrders orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
 		if(orderConfirmed==null)
 			return null;
-//		return "bookTable";
-		return orderConfirmed;
+		return "bookTable";
+
 	}
 	
 	@GetMapping("/{customerId}/repeatOrder")
-	public RestEnExOrders repeatLastOrder(@PathVariable UUID customerId) {
+	public String repeatLastOrder(@PathVariable UUID customerId) {
 		RestEnExOrders orderConfirmed = customerService.repeatOrder(customerId);
 		if(orderConfirmed==null)
 			return null;
-		return orderConfirmed;
-//		return "bookTable";
+		return "bookTable";
 	}
 
 }

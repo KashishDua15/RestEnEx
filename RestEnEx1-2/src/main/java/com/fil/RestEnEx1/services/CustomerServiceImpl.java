@@ -35,10 +35,10 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public Customer customerSignIn(String email, String password) {
-		Customer customer = customerDao.findByCustomerEmail(email);
+	public Customer customerSignIn(String customerEmail, String customerPassword) {
+		Customer customer = customerDao.findByCustomerEmail(customerEmail);
 		if(customer!=null) {
-			if(customer.getCustomerPassword().equals(password))
+			if(customer.getCustomerPassword().equals(customerPassword))
 				{
 					
 					return customer;

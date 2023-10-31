@@ -1,5 +1,6 @@
 package com.fil.RestEnEx1.controllers;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,7 +44,9 @@ public class CustomerController {
 	}
 
 	@PostMapping("/customer/signup")
-	public String customerSignUp(@ModelAttribute("customer") Customer customer) {
+//	public String customerSignUp(@ModelAttribute("customer") Customer customer) {
+	public String customerSignUp(@RequestBody Customer customer) {
+		System.out.println("Customer signup"+customer);
 		customerService.customerSignUp(customer);
 		return "SignUpCustomer";
 	}
@@ -54,8 +57,8 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customer/signin")
-	public String customerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword) {
-	Customer customer=	customerService.customerSignIn(customerEmail, customerPassword);
+	public String customerSignIn(@RequestBody LinkedHashMap<String, String> object) {
+	Customer customer =	customerService.customerSignIn(object.get("email").toString(), object.get("password").toString());
 	if (customer != null) {
         return "SignInCustomer"; 
     } else {
@@ -97,7 +100,12 @@ public class CustomerController {
 		List<Restaurant> restaurants = customerService.getResstaurantsByArea(area);
 		System.out.println("REST"+restaurants);
 		return ResponseEntity.ok(restaurants); 
-		
+	}
+	
+	@PostMapping("/{customerId}/favourites")
+	public String addFavourite(@PathVariable UUID customerId,@RequestBody LinkedHashMap<String, String> object) {
+	customerService.addFavourite(customerId, object.get("restaurantName").toString());
+	return "";
 	}
 	
 

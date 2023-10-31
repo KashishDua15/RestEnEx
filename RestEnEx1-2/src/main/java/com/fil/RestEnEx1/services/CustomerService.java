@@ -19,5 +19,6 @@ public interface CustomerService {
 	public Optional<Restaurant> getRestaurantById(UUID restaurantId);
 	public RestEnExOrders bookTable(UUID restaurantId, UUID customerId, RestEnExOrders order);
 	public RestEnExOrders repeatOrder(UUID customerId);
+	public void addFavourite(UUID customerId,String restaurantName);
 
 }

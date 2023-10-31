@@ -12,5 +12,6 @@ import com.fil.RestEnEx1.entities.Restaurant;
 @Repository
 public interface RestaurantDao extends JpaRepository<Restaurant, UUID>{
 	public List<Restaurant> findAllByRestaurantArea(String area);
+	public Restaurant findByRestaurantName(String restaurantName);
 	
 }

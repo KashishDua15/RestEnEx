@@ -27,43 +27,41 @@ import com.fil.RestEnEx1.services.OwnerService;
 
 @Controller
 public class CustomerController {
-    
+
 	CustomerDao customerDao;
-	
+
 	@Autowired
 	private CustomerService customerService;
-	
+
 	@GetMapping("/home")
 	public String home() {
-		return"index";
+		return "index";
 	}
-	
+
 	@GetMapping("/customer/signup")
 	public String customerSignUp() {
 		return "SignUpCustomer";
 	}
 
 	@PostMapping("/customer/signup")
-//	public String customerSignUp(@ModelAttribute("customer") Customer customer) {
-	public String customerSignUp(@RequestBody Customer customer) {
-		System.out.println("Customer signup"+customer);
+	public String customerSignUp(@ModelAttribute("customer") Customer customer) {
 		customerService.customerSignUp(customer);
 		return "SignUpCustomer";
 	}
-	
+
 	@GetMapping("/customer/signin")
 	public String ownerSignIn() {
 		return "SignInCustomer";
 	}
-	
+
 	@PostMapping("/customer/signin")
-	public String customerSignIn(@RequestBody LinkedHashMap<String, String> object) {
-	Customer customer =	customerService.customerSignIn(object.get("email").toString(), object.get("password").toString());
-	if (customer != null) {
-        return "SignInCustomer"; 
-    } else {
-        return "error"; 
-    }
+	public String customerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword) {
+		Customer customer=	customerService.customerSignIn(customerEmail, customerPassword);
+		if (customer != null) {
+	        return "SignInCustomer"; 
+	    } else {
+			return "error";
+		}
 	}
 
 	@GetMapping("/allNames")
@@ -79,34 +77,34 @@ public class CustomerController {
 	}
 
 	@PostMapping("/{customerId}/restaurants/{restaurantId}/booktable")
-	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody RestEnExOrders order) {
+	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId,
+			@RequestBody RestEnExOrders order) {
 		RestEnExOrders orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
-		if(orderConfirmed==null)
+		if (orderConfirmed == null)
 			return null;
 		return "bookTable";
 
 	}
-	
+
 	@GetMapping("/{customerId}/repeatOrder")
 	public String repeatLastOrder(@PathVariable UUID customerId) {
 		RestEnExOrders orderConfirmed = customerService.repeatOrder(customerId);
-		if(orderConfirmed==null)
+		if (orderConfirmed == null)
 			return null;
 		return "bookTable";
 	}
-	
+
 	@GetMapping("/restaurants/{area}")
 	public ResponseEntity<List<Restaurant>> getRestaurantByArea(@PathVariable String area) {
 		List<Restaurant> restaurants = customerService.getResstaurantsByArea(area);
-		System.out.println("REST"+restaurants);
-		return ResponseEntity.ok(restaurants); 
+		System.out.println("REST" + restaurants);
+		return ResponseEntity.ok(restaurants);
 	}
-	
+
 	@PostMapping("/{customerId}/favourites")
-	public String addFavourite(@PathVariable UUID customerId,@RequestBody LinkedHashMap<String, String> object) {
-	customerService.addFavourite(customerId, object.get("restaurantName").toString());
-	return "";
+	public String addFavourite(@PathVariable UUID customerId, @RequestBody LinkedHashMap<String, String> object) {
+		customerService.addFavourite(customerId, object.get("restaurantName").toString());
+		return "";
 	}
-	
 
 }

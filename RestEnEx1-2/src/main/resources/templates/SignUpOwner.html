@@ -106,38 +106,57 @@ form .text h3 a:hover{
   text-decoration: underline;
 }
 	</style>
-  
-	<section class="vh-100">
-		<form align="center">
-			<h3>Create an account for Customer</h3>
-			<input type="Name" id="form3Example3" class="form-control form-control-lg"
-				placeholder="Enter your name" />
-			<label class="form-label" for="form3Example3"></label>
-			<br></br>
-			<input type="email" id="form3Example3" class="form-control form-control-lg"
-				placeholder="Enter your email" />
-			<label class="form-label" for="form3Example3"></label>
-			<br><br>
-			<input type="password" id="form3Example3" class="form-control form-control-lg"
-				placeholder=" Enter  password" />
-			<label class="form-label" for="form3Example3"></label>
-			<br><br>
-			<input type="text" id="form3Example3" class="form-control form-control-lg"
-				placeholder=" Address" />
-			<label class="form-label" for="form3Example3"></label>
-			<br>
-			<br>
-			<input type="number" id="form3Example3" class="form-control form-control-lg"
-				placeholder=" Contact no." />
-			<label class="form-label" for="form3Example3"></label>
-			<br><br>
-			
-			<button type="submit" form="form1" value="Register">Register</button>
-			<br>
-			 
-			<p>Have already an account?<a th:href="@{index}">Login here</a></p>
-		</form>
-	</section>
-</head>
-
+  <div class="wrapper">
+    <h2>Registration for Owner</h2>
+    <form action="#">
+      <div class="input-box">
+        <input type="text" placeholder="Enter your name" required>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Enter your email" required>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Create password" required>
+      </div>
+       <div class="input-box">
+        <input type="number" placeholder="Enter contact no." required>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Restaurant Name" required>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Address" required>
+      </div>
+       <div class="input-box">
+        <input type="text" placeholder="State" required>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Area" required>
+      </div>
+      <div class="input-box">
+        <input type="number" placeholder="Pincode" required>
+      </div>
+      <div class="input-box">
+        <input type="number" placeholder="Total Seats" required>
+      </div>
+      <div class="input-box">
+        <input type="number" placeholder="Available seats" required>
+      </div>
+      <div class="input-box">
+        <input type="number" placeholder="Meal for two price" required>
+      </div>
+      <div class="policy">
+        <input type="checkbox">
+        <h3>I accept all terms & condition</h3>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" value="Register Now">
+      </div>
+      <div class="text">
+       <p>Already have an account<a th:href="@{signin}">  Login </a></p>
+       
+      </div>
+    </form>
+  </div>
+</body>
 </html>

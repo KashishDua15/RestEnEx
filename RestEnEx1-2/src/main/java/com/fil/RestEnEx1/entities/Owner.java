@@ -21,7 +21,7 @@ public class Owner {
 	private String password;
 	
 	@OneToOne
-	@JoinColumn(name="restaurantId" , nullable=false)
+	@JoinColumn(name="restaurantId" )
 	private Restaurant restaurant;
 
 	public long getOwnerId() {

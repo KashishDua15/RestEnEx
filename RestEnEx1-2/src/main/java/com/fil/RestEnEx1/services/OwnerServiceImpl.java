@@ -1,11 +1,13 @@
 package com.fil.RestEnEx1.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fil.RestEnEx1.dao.MenuItemDao;
 import com.fil.RestEnEx1.dao.OrderDao;
 import com.fil.RestEnEx1.dao.OwnerDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
@@ -27,6 +29,9 @@ public class OwnerServiceImpl implements OwnerService{
 	@Autowired
 	private RestaurantDao restaurantDao;
 	
+	@Autowired
+	private MenuItemDao menuitemdao;
+	
 	public Restaurant addRestaurant(Restaurant restaurant) {
 		restaurantDao.save(restaurant);
 		return restaurant;
@@ -34,25 +39,27 @@ public class OwnerServiceImpl implements OwnerService{
 		
 	}
 	
-	public int updateAvailableSeats(long restaurantId,int availableNoOfSeats) {
+	public Restaurant updateAvailableSeats(long restaurantId,int availableNoOfSeats) {
 		
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		res.setRestaurantAvailableSeats(availableNoOfSeats);
-		return res.getRestaurantAvailableSeats();
+		return restaurantDao.save(res);
 
 	}
 	
-	public int updateTotalSeats(long restaurantId, int updateTotalSeats) {
+	public Restaurant updateTotalSeats(long restaurantId, int updateTotalSeats) {
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		res.setRestaurantTotalSeats(updateTotalSeats);
-		return res.getRestaurantTotalSeats();	
+		return restaurantDao.save(res);	
 	}
 	
 
-	public List<MenuItem> addMenu(long restaurantId,List<MenuItem> menuItem) {
+	public void addMenuItem(long restaurantId,MenuItem menuItem) {
 		Restaurant res=restaurantDao.findById(restaurantId).get();
-		res.setRestaurantMenu(menuItem);
-		return res.getRestaurantMenu();
+		System.out.println(res);
+		menuItem.setRestaurant(res);
+		System.out.println(menuItem.getRestaurant());
+		menuitemdao.save(menuItem);
 	}
 	
 	public int getRating(long restaurantId) {
@@ -85,6 +92,9 @@ public class OwnerServiceImpl implements OwnerService{
 
 	@Override
 	public void ownerSignUp(Owner owner) {
+		System.out.println(owner.getRestaurant());
+		Restaurant r = owner.getRestaurant();
+		restaurantDao.save(r);
 		ownerDao.save(owner);
 	}
 

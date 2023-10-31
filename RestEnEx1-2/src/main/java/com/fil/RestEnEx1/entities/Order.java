@@ -2,6 +2,7 @@ package com.fil.RestEnEx1.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
@@ -14,11 +15,11 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table
+@Table(name="restenxOrders")
 public class Order {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long orderId;
+    private UUID orderId;
 	private String restaurantName;
 	private String tableNumber;
 	private String numberOfPeople;
@@ -33,10 +34,10 @@ public class Order {
 	@ManyToOne
     @JoinColumn(name="restaurantId", nullable=false)
     private Restaurant restaurant;
-	public long getOrderId() {
+	public UUID getOrderId() {
 		return orderId;
 	}
-	public void setOrderId(long orderId) {
+	public void setOrderId(UUID orderId) {
 		this.orderId = orderId;
 	}
 	public String getRestaurantName() {

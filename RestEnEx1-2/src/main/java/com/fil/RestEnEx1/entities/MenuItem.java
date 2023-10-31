@@ -3,6 +3,7 @@ package com.fil.RestEnEx1.entities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.propertyeditors.CustomMapEditor;
 
@@ -22,7 +23,7 @@ public class MenuItem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int itemId;
+	private UUID itemId;
 	private String category; // starter,maincourse,beverages,drinks
 	private String itemName;
 	private float itemPrice;
@@ -31,11 +32,11 @@ public class MenuItem {
     @JoinColumn(name="restaurantId", nullable=false)
 	private Restaurant restaurant;
 
-	public int getItemId() {
+	public UUID getItemId() {
 		return itemId;
 	}
 
-	public void setItemId(int itemId) {
+	public void setItemId(UUID itemId) {
 		this.itemId = itemId;
 	}
 
@@ -78,7 +79,7 @@ public class MenuItem {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MenuItem(int itemId, String category, String itemName, float itemPrice) {
+	public MenuItem(UUID itemId, String category, String itemName, float itemPrice) {
 	super();
 	this.itemId = itemId;
 	this.category = category;

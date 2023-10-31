@@ -2,6 +2,7 @@ package com.fil.RestEnEx1.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public Optional<Restaurant> getRestaurantById(long restaurantId) {
+	public Optional<Restaurant> getRestaurantById(UUID restaurantId) {
 		return restaurantDao.findById(restaurantId);
 	}
 
@@ -52,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public Order bookTable(long restaurantId, long customerId, Order order) {
+	public Order bookTable(UUID restaurantId, UUID customerId, Order order) {
 		Restaurant restaurant = restaurantDao.findById(restaurantId).get();
 		Customer customer = customerDao.findById(customerId).get();
 		int availableSeats = restaurant.getRestaurantAvailableSeats();
@@ -65,5 +66,28 @@ public class CustomerServiceImpl implements CustomerService{
 		}
 		else 
 			return null;
+	}
+
+	@Override
+	public Order repeatOrder(UUID customerId) {
+		List<Order> recentOrders = orderDao.findAllByCustomerId(customerId);
+		if(recentOrders.isEmpty())
+			return null;
+		else {
+			Order lastOrder = recentOrders.get(0);
+			Order newOrder = new Order(
+					lastOrder.getRestaurantName(),
+					lastOrder.getTableNumber(),
+					lastOrder.getNumberOfPeople(),
+					lastOrder.getBill(),
+					lastOrder.getPaymentStatus(),
+					lastOrder.getRestaurantRating(),
+					lastOrder.getItemsOrdered(),
+					lastOrder.getCustomer(),
+					lastOrder.getRestaurant()
+					);
+			orderDao.save(newOrder);
+			return newOrder;
+		}
 	}
 }

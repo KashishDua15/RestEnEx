@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -19,7 +20,7 @@ import jakarta.persistence.Table;
 public class Customer {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private long customerId; 
+	private UUID customerId; 
 	private String customerName;
 	private String customerEmail;
 	private String customerContactNumber; 
@@ -30,11 +31,11 @@ public class Customer {
 	@OneToMany(mappedBy="customer")
 	private List<Order> orderHistory = new ArrayList<Order>();
 
-	public long getCustomerId() {
+	public UUID getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(long customerId) {
+	public void setCustomerId(UUID customerId) {
 		this.customerId = customerId;
 	}
 

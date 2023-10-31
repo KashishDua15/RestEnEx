@@ -2,6 +2,7 @@ package com.fil.RestEnEx1.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
@@ -21,7 +22,7 @@ public class Restaurant {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private long restaurantId; 
+	private UUID restaurantId; 
 	private String restaurantName;
 	private String restaurantArea;
 	private String restaurantCity;
@@ -41,11 +42,11 @@ public class Restaurant {
 //	private Owner owner;
 
 
-	public long getRestaurantId() {
+	public UUID getRestaurantId() {
 		return restaurantId;
 	}
 
-	public void setRestaurantId(long restaurantId) {
+	public void setRestaurantId(UUID restaurantId) {
 		this.restaurantId = restaurantId;
 	}
 
@@ -154,7 +155,7 @@ public class Restaurant {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Restaurant(long restaurantId, String restaurantName, String restaurantArea, String restaurantCity,
+	public Restaurant(UUID restaurantId, String restaurantName, String restaurantArea, String restaurantCity,
 		String restaurantPincode, int restaurantTotalSeats, int restaurantAvailableSeats, int restaurantMealForTwo,
 		int resturantRating) {
 	super();

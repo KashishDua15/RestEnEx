@@ -2,6 +2,7 @@ package com.fil.RestEnEx1.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,14 +57,24 @@ public class CustomerController {
 	}
 
 	@GetMapping("/allNames/{restaurantId}")
-	public String getRestaurantById(@PathVariable long restaurantId) {
+	public String getRestaurantById(@PathVariable UUID restaurantId) {
 		Optional<Restaurant> restaurant = customerService.getRestaurantById(restaurantId);
 		return "restaurant";
 	}
 
-	@PostMapping("{customerId}/restaurants/{restaurantId}/booktable")
-	public String bookTable(@PathVariable long customerId, @PathVariable long restaurantId, @RequestBody Order order) {
+	@PostMapping("/{customerId}/restaurants/{restaurantId}/booktable")
+	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody Order order) {
 		Order orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
+		if(orderConfirmed==null)
+			return "";
+		return "bookTable";
+	}
+	
+	@GetMapping("/{customerId}/repeatOrder")
+	public String repeatLastOrder(@PathVariable UUID customerId) {
+		Order orderConfirmed = customerService.repeatOrder(customerId);
+		if(orderConfirmed==null)
+			return "";
 		return "bookTable";
 	}
 

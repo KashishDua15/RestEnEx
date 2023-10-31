@@ -45,9 +45,13 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customer/signin")
-	public String customerSignIn(@RequestParam String email, @RequestParam String password) {
-		customerService.customerSignIn(email, password);
-		return "customersignin";
+	public String customerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword,Model model) {
+	Customer customer=	customerService.customerSignIn(customerEmail, customerPassword);
+	if (customer != null) {
+        return "SignInCustomer"; 
+    } else {
+        return "error"; 
+    }
 	}
 
 	@GetMapping("/allNames")

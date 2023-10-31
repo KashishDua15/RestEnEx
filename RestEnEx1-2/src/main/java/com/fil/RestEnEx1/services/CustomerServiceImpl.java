@@ -7,11 +7,12 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.fil.RestEnEx1.dao.CustomerDao;
+import com.fil.RestEnEx1.dao.MenuItemDao;
 import com.fil.RestEnEx1.dao.RestEnExOrdersDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
 import com.fil.RestEnEx1.entities.Customer;
+import com.fil.RestEnEx1.entities.MenuItemDTO;
 import com.fil.RestEnEx1.entities.RestEnExOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 
@@ -23,6 +24,9 @@ public class CustomerServiceImpl implements CustomerService{
 	private CustomerDao customerDao;
 	@Autowired
 	private RestEnExOrdersDao restEnExOrdersDao;
+	
+	@Autowired
+	private MenuItemDao menuitemdao;
 	
 
 //	@Override
@@ -130,5 +134,18 @@ public class CustomerServiceImpl implements CustomerService{
 		customer.setCustomerFavourites(customerFavourites);
 		customerDao.saveAndFlush(customer);
 		
+	}
+
+	@Override
+	public List<MenuItemDTO> getMenuByCategory(UUID customerId, String catagory) {
+//		System.out.println(customerId+" "+catagory);
+		List<MenuItemDTO> menubycategory = menuitemdao.findByCategory(customerId, catagory);
+//		System.out.println(menubycategory.toString());
+//		for (Object[] menuItem : menubycategory) {
+//		    String itemName = (String) menuItem[0];
+//		    Float itemPrice = (Float) menuItem[1];
+//		    System.out.println("Item Name: " + itemName + ", Item Price: " + itemPrice);
+//		}
+		return menubycategory;
 	}
 }

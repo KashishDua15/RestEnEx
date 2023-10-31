@@ -15,6 +15,7 @@ public interface CustomerService {
 	public void customerSignUp(Customer customer);
 	public Customer customerSignIn(String email, String password);
 	public List<Restaurant> getAllRestaurantNames();
+	public List<Restaurant> getResstaurantsByArea(String area);
 	public Optional<Restaurant> getRestaurantById(UUID restaurantId);
 	public RestEnExOrders bookTable(UUID restaurantId, UUID customerId, RestEnExOrders order);
 	public RestEnExOrders repeatOrder(UUID customerId);

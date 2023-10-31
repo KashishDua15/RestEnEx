@@ -7,9 +7,13 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.fil.RestEnEx1.entities.Customer;
+
 import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.MenuItemDTO;
 import com.fil.RestEnEx1.entities.RestEnExOrders;
+
+import com.fil.RestEnEx1.entities.CustomerOrders;
+
 import com.fil.RestEnEx1.entities.Restaurant;
 
 public interface CustomerService {
@@ -19,8 +23,8 @@ public interface CustomerService {
 	public List<Restaurant> getAllRestaurantNames();
 	public List<Restaurant> getResstaurantsByArea(String area);
 	public Optional<Restaurant> getRestaurantById(UUID restaurantId);
-	public RestEnExOrders bookTable(UUID restaurantId, UUID customerId, RestEnExOrders order);
-	public RestEnExOrders repeatOrder(UUID customerId);
+	public CustomerOrders bookTable(UUID restaurantId, UUID customerId, CustomerOrders order);
+	public CustomerOrders repeatOrder(UUID customerId);
 	public void addFavourite(UUID customerId,String restaurantName);
 	public List<MenuItemDTO> getMenuByCategory(UUID customerId,String catagory);
 

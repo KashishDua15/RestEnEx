@@ -1,5 +1,6 @@
 package com.fil.RestEnEx1.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -10,11 +11,15 @@ import org.springframework.stereotype.Service;
 import com.fil.RestEnEx1.dao.CustomerDao;
 import com.fil.RestEnEx1.dao.MenuItemDao;
 import com.fil.RestEnEx1.dao.RestEnExOrdersDao;
+import com.fil.RestEnEx1.dao.CustomerOrdersDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
+import com.fil.RestEnEx1.dao.RestaurantOrdersDao;
 import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.MenuItemDTO;
 import com.fil.RestEnEx1.entities.RestEnExOrders;
+import com.fil.RestEnEx1.entities.CustomerOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
+import com.fil.RestEnEx1.entities.RestaurantOrders;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
@@ -23,7 +28,9 @@ public class CustomerServiceImpl implements CustomerService{
 	@Autowired
 	private CustomerDao customerDao;
 	@Autowired
-	private RestEnExOrdersDao restEnExOrdersDao;
+	private CustomerOrdersDao customerOrdersDao;
+	@Autowired
+	private RestaurantOrdersDao restaurantOrdersDao;
 	
 	@Autowired
 	private MenuItemDao menuitemdao;
@@ -59,18 +66,33 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public RestEnExOrders bookTable(UUID restaurantId, UUID customerId, RestEnExOrders order) {
-	System.out.println(restaurantId+" cID = " + customerId);
+	public CustomerOrders bookTable(UUID restaurantId, UUID customerId, CustomerOrders order) {
 		Restaurant restaurant = restaurantDao.findById(restaurantId).get();
 		Customer customer = customerDao.findById(customerId).get();
-		System.out.println("CUstomer"+customer);
 		
+		order.setRestaurantName(restaurant.getRestaurantName());
 		int availableSeats = restaurant.getRestaurantAvailableSeats();
+		
 		if(availableSeats>0) {
 			restaurant.setRestaurantAvailableSeats(availableSeats-1);
+			RestaurantOrders newRestaurantOrder = new RestaurantOrders(
+					order.getRestaurantName(),
+					order.getTableNumber(),
+					order.getNumberOfPeople(),
+					order.getBill(),
+					order.getPaymentStatus(),
+					order.getRestaurantRating(),
+					order.getItemsOrdered(),
+					new Date(),
+					customerId,
+					restaurant
+					);
 			order.setCustomer(customer);
-			order.setRestaurant(restaurant);
-			restEnExOrdersDao.saveAndFlush(order);
+			order.setRestaurant_id(restaurantId);
+			order.setDateOrdered(new Date());
+			
+			customerOrdersDao.saveAndFlush(order);
+			restaurantOrdersDao.saveAndFlush(newRestaurantOrder);
 			return order;
 		}
 		else 
@@ -78,41 +100,51 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public RestEnExOrders repeatOrder(UUID customerId) {
-//		System.out.println(customerId.toString());
-//		Customer customer = customerDao.findById(customerId).get();
-//		System.out.println("Customer "+customer);
-//		List<Order> recentOrders = orderDao.findAllByCustomerId(customerId.toString());
-//		Customer customer = customerDao.findById(customerId).get();
-//		System.out.println("Customer "+customer);
-//		List<RestEnExOrders> recentOrders = restEnExOrdersDao.findAll();
-//		System.out.println("recentOrders"+recentOrders);
-//		if(recentOrders.isEmpty())
-//			return null;
-//		else {
-//			Order lastOrder = recentOrders.get(0);
-//			Restaurant restaurant = lastOrder.getRestaurant();
-//			int availableSeats = restaurant.getRestaurantAvailableSeats();
-//			if(availableSeats>0) {
-//				restaurant.setRestaurantAvailableSeats(availableSeats-1);
-//				Order newOrder = new Order(
-//						lastOrder.getRestaurantName(),
-//						lastOrder.getTableNumber(),
-//						lastOrder.getNumberOfPeople(),
-//						lastOrder.getBill(),
-//						lastOrder.getPaymentStatus(),
-//						lastOrder.getRestaurantRating(),
-//						lastOrder.getItemsOrdered(),
-//						lastOrder.getCustomer(),
-//						lastOrder.getRestaurant()
-//						);
-//				System.out.println("ORDERRRRRRRRRRRR"+newOrder);
-//				orderDao.saveAndFlush(newOrder);
-//			
-//				return newOrder;
-//			}
-//			else 
+	public CustomerOrders repeatOrder(UUID customerId) {
+		Customer customer = customerDao.findById(customerId).get();
+		List<CustomerOrders> recentOrders = customerOrdersDao.findAllByCustomerId(customerId);
+		System.out.println("recentOrders 0"+recentOrders.get(0)+" \nLast "+recentOrders.get(recentOrders.size()-1));
+		if(recentOrders.isEmpty())
+			return null;
+		else {
+			CustomerOrders lastOrder = recentOrders.get(0);
+			Restaurant restaurant = restaurantDao.findById(lastOrder.getRestaurant_id()).get();
+			int availableSeats = restaurant.getRestaurantAvailableSeats();
+			if(availableSeats>0) {
+				restaurant.setRestaurantAvailableSeats(availableSeats-1);
+				CustomerOrders newCustomerOrder = new CustomerOrders(
+						lastOrder.getRestaurantName(),
+						lastOrder.getTableNumber(),
+						lastOrder.getNumberOfPeople(),
+						lastOrder.getBill(),
+						lastOrder.getPaymentStatus(),
+						lastOrder.getRestaurantRating(),
+						lastOrder.getItemsOrdered(),
+						new Date(),
+						lastOrder.getRestaurant_id(),
+						lastOrder.getCustomer()
+						);
+				RestaurantOrders newRestaurantOrder = new RestaurantOrders(
+						lastOrder.getRestaurantName(),
+						lastOrder.getTableNumber(),
+						lastOrder.getNumberOfPeople(),
+						lastOrder.getBill(),
+						lastOrder.getPaymentStatus(),
+						lastOrder.getRestaurantRating(),
+						lastOrder.getItemsOrdered(),
+						new Date(),
+						customerId,
+						restaurant
+						);
+				System.out.println("ORDERRRRRRRRRRRR"+newCustomerOrder);
+				customerOrdersDao.saveAndFlush(newCustomerOrder);
+				restaurantOrdersDao.saveAndFlush(newRestaurantOrder);
+			
+				return newCustomerOrder;
+			}
+			else 
 				return null;
+		}
 		
 	}
 
@@ -138,14 +170,9 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public List<MenuItemDTO> getMenuByCategory(UUID customerId, String catagory) {
-//		System.out.println(customerId+" "+catagory);
+
 		List<MenuItemDTO> menubycategory = menuitemdao.findByCategory(customerId, catagory);
-//		System.out.println(menubycategory.toString());
-//		for (Object[] menuItem : menubycategory) {
-//		    String itemName = (String) menuItem[0];
-//		    Float itemPrice = (Float) menuItem[1];
-//		    System.out.println("Item Name: " + itemName + ", Item Price: " + itemPrice);
-//		}
+
 		return menubycategory;
 	}
 }

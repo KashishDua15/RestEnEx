@@ -27,7 +27,7 @@ public class Customer {
 	private String customerPassword; 
 	@Embedded
 	private Address customerAddress;
-	private Set<String> customerFavourites = new LinkedHashSet<String>();
+	private Set<UUID> customerFavourites = new LinkedHashSet<UUID>();
 	@OneToMany(mappedBy="customer")
 	private List<RestEnExOrders> orderHistory = new ArrayList<RestEnExOrders>();
 
@@ -79,11 +79,11 @@ public class Customer {
 		this.customerAddress = customerAddress;
 	}
 
-	public Set<String> getCustomerFavourites() {
+	public Set<UUID> getCustomerFavourites() {
 		return customerFavourites;
 	}
 
-	public void setCustomerFavourites(Set<String> customerFavourites) {
+	public void setCustomerFavourites(Set<UUID> customerFavourites) {
 		this.customerFavourites = customerFavourites;
 	}
 
@@ -96,7 +96,7 @@ public class Customer {
 	}
 
 	public Customer(String customerName, String customerEmail, String customerContactNumber,
-			String customerPassword, Address customerAddress, Set<String> customerFavourites,
+			String customerPassword, Address customerAddress, Set<UUID> customerFavourites,
 			List<RestEnExOrders> orderHistory) {
 		super();
 		this.customerName = customerName;

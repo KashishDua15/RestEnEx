@@ -2,6 +2,7 @@ package com.fil.RestEnEx1.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public void customerSignUp(Customer customer) {
+		System.out.println("Customer signup"+customer);
 		customerDao.saveAndFlush(customer);
 	}
 
@@ -114,8 +116,19 @@ public class CustomerServiceImpl implements CustomerService{
 	public List<Restaurant> getResstaurantsByArea(String area) {
 		// TODO Auto-generated method stub
 		List<Restaurant> restaurants = restaurantDao.findAllByRestaurantArea(area);
-	System.out.println("HELLOOOo"+restaurants);
+		System.out.println("HELLOOOo"+restaurants);
 		
 		return restaurants;
+	}
+
+	@Override
+	public void addFavourite(UUID customerId, String restaurantName) {
+		Restaurant restaurant = restaurantDao.findByRestaurantName(restaurantName);
+		Customer customer = customerDao.findById(customerId).get();
+		Set<UUID> customerFavourites = customer.getCustomerFavourites();
+		customerFavourites.add(restaurant.getRestaurantId());
+		customer.setCustomerFavourites(customerFavourites);
+		customerDao.saveAndFlush(customer);
+		
 	}
 }

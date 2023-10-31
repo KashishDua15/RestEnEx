@@ -2,6 +2,7 @@ package com.fil.RestEnEx1.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fil.RestEnEx1.dao.CustomerDao;
 import com.fil.RestEnEx1.entities.Customer;
-import com.fil.RestEnEx1.entities.Order;
+import com.fil.RestEnEx1.entities.RestEnExOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.CustomerService;
 
 @Controller
 public class CustomerController {
     
+	CustomerDao customerDao;
 	
 	@Autowired
 	private CustomerService customerService;
@@ -66,14 +69,25 @@ public class CustomerController {
 	}
 
 	@GetMapping("/allNames/{restaurantId}")
-	public String getRestaurantById(@PathVariable long restaurantId) {
+	public String getRestaurantById(@PathVariable UUID restaurantId) {
 		Optional<Restaurant> restaurant = customerService.getRestaurantById(restaurantId);
 		return "restaurant";
 	}
 
-	@PostMapping("{customerId}/restaurants/{restaurantId}/booktable")
-	public String bookTable(@PathVariable long customerId, @PathVariable long restaurantId, @RequestBody Order order) {
-		Order orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
+	@PostMapping("/{customerId}/restaurants/{restaurantId}/booktable")
+	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody RestEnExOrders order) {
+		RestEnExOrders orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
+		if(orderConfirmed==null)
+			return null;
+		return "bookTable";
+
+	}
+	
+	@GetMapping("/{customerId}/repeatOrder")
+	public String repeatLastOrder(@PathVariable UUID customerId) {
+		RestEnExOrders orderConfirmed = customerService.repeatOrder(customerId);
+		if(orderConfirmed==null)
+			return null;
 		return "bookTable";
 	}
 

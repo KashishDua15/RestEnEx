@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -19,7 +20,7 @@ import jakarta.persistence.Table;
 public class Customer {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private long customerId; 
+	private UUID customerId; 
 	private String customerName;
 	private String customerEmail;
 	private String customerContactNumber; 
@@ -28,13 +29,13 @@ public class Customer {
 	private Address customerAddress;
 	private Set<String> customerFavourites = new LinkedHashSet<String>();
 	@OneToMany(mappedBy="customer")
-	private List<Order> orderHistory = new ArrayList<Order>();
+	private List<RestEnExOrders> orderHistory = new ArrayList<RestEnExOrders>();
 
-	public long getCustomerId() {
+	public UUID getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(long customerId) {
+	public void setCustomerId(UUID customerId) {
 		this.customerId = customerId;
 	}
 
@@ -86,17 +87,17 @@ public class Customer {
 		this.customerFavourites = customerFavourites;
 	}
 
-	public List<Order> getOrderHistory() {
+	public List<RestEnExOrders> getOrderHistory() {
 		return orderHistory;
 	}
 
-	public void setOrderHistory(List<Order> orderHistory) {
+	public void setOrderHistory(List<RestEnExOrders> orderHistory) {
 		this.orderHistory = orderHistory;
 	}
 
 	public Customer(String customerName, String customerEmail, String customerContactNumber,
 			String customerPassword, Address customerAddress, Set<String> customerFavourites,
-			List<Order> orderHistory) {
+			List<RestEnExOrders> orderHistory) {
 		super();
 		this.customerName = customerName;
 		this.customerEmail = customerEmail;

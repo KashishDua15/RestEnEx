@@ -3,18 +3,19 @@ package com.fil.RestEnEx1.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fil.RestEnEx1.dao.MenuItemDao;
-import com.fil.RestEnEx1.dao.OrderDao;
 import com.fil.RestEnEx1.dao.OwnerDao;
+import com.fil.RestEnEx1.dao.RestEnExOrdersDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
 import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.MenuItem;
-import com.fil.RestEnEx1.entities.Order;
 import com.fil.RestEnEx1.entities.Owner;
+import com.fil.RestEnEx1.entities.RestEnExOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 
 @Service
@@ -22,9 +23,9 @@ public class OwnerServiceImpl implements OwnerService{
 	
 	
 	@Autowired 
-	private OwnerDao ownerDao;
+	private RestEnExOrdersDao restEnExOrdersDao;
 	@Autowired 
-	private OrderDao orderDao;
+	private OwnerDao ownerDao;
 	
 	@Autowired
 	private RestaurantDao restaurantDao;
@@ -33,48 +34,48 @@ public class OwnerServiceImpl implements OwnerService{
 	private MenuItemDao menuitemdao;
 	
 	public Restaurant addRestaurant(Restaurant restaurant) {
-		restaurantDao.save(restaurant);
+		restaurantDao.saveAndFlush(restaurant);
 		return restaurant;
 		
 		
 	}
 	
-	public Restaurant updateAvailableSeats(long restaurantId,int availableNoOfSeats) {
+	public Restaurant updateAvailableSeats(UUID restaurantId,int availableNoOfSeats) {
 		
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		res.setRestaurantAvailableSeats(availableNoOfSeats);
-		return restaurantDao.save(res);
+		return restaurantDao.saveAndFlush(res);
 
 	}
 	
-	public Restaurant updateTotalSeats(long restaurantId, int updateTotalSeats) {
+	public Restaurant updateTotalSeats(UUID restaurantId, int updateTotalSeats) {
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		res.setRestaurantTotalSeats(updateTotalSeats);
-		return restaurantDao.save(res);	
+		return restaurantDao.saveAndFlush(res);	
 	}
 	
 
-	public void addMenuItem(long restaurantId,MenuItem menuItem) {
+	public void addMenuItem(UUID restaurantId,MenuItem menuItem) {
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		System.out.println(res);
 		menuItem.setRestaurant(res);
 		System.out.println(menuItem.getRestaurant());
-		menuitemdao.save(menuItem);
+		menuitemdao.saveAndFlush(menuItem);
 	}
 	
-	public int getRating(long restaurantId) {
+	public int getRating(UUID restaurantId) {
 		
 		Restaurant res = restaurantDao.findById(restaurantId).get();
 		return res.getResturantRating();	
 	}
 	
-	public Order getOrder (long orderId){
-		return orderDao.findById(orderId).get();
+	public RestEnExOrders getOrder (UUID orderId){
+		return restEnExOrdersDao.findById(orderId).get();
 		
 	}
 	
-	public List<Order> getAllOrders(){
-		return orderDao.findAll();
+	public List<RestEnExOrders> getAllOrders(){
+		return restEnExOrdersDao.findAll();
 		
 	}
 	
@@ -94,9 +95,10 @@ public class OwnerServiceImpl implements OwnerService{
 	public void ownerSignUp(Owner owner) {
 		System.out.println(owner.getRestaurant());
 		Restaurant r = owner.getRestaurant();
-		restaurantDao.save(r);
-		ownerDao.save(owner);
+		restaurantDao.saveAndFlush(r);
+		ownerDao.saveAndFlush(owner);
 	}
+
 
 
 }

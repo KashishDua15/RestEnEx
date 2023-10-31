@@ -1,5 +1,7 @@
 package com.fil.RestEnEx1.entities;
 
+import java.util.UUID;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +16,7 @@ public class Owner {
   
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private long ownerId; 
+	private UUID ownerId; 
 	private String name;
 	private String contactno;
 	private String emailId;
@@ -24,11 +26,11 @@ public class Owner {
 	@JoinColumn(name="restaurantId" )
 	private Restaurant restaurant;
 
-	public long getOwnerId() {
+	public UUID getOwnerId() {
 		return ownerId;
 	}
 
-	public void setOwnerId(long ownerId) {
+	public void setOwnerId(UUID ownerId) {
 		this.ownerId = ownerId;
 	}
 
@@ -72,7 +74,7 @@ public class Owner {
 		this.restaurant = restaurant;
 	}
 
-	public Owner(long ownerId, String name, String contactno, String emailId, String password) {
+	public Owner(UUID ownerId, String name, String contactno, String emailId, String password) {
 		super();
 		this.ownerId = ownerId;
 		this.name = name;

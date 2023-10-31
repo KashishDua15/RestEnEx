@@ -3,6 +3,7 @@ package com.fil.RestEnEx1.controllers;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -68,7 +69,7 @@ public class OwnerController {
 	}
 	
 	@PostMapping("/owner/addmenu/{restaurantId}")
-	public String  addMenu(@PathVariable long restaurantId,@RequestBody MenuItem menuItem){
+	public String  addMenu(@PathVariable UUID restaurantId,@RequestBody MenuItem menuItem){
 		System.out.println(restaurantId);
 		ownerService.addMenuItem(restaurantId, menuItem);
 		return "menu added successfully";
@@ -76,7 +77,7 @@ public class OwnerController {
 	}
 	
 	@GetMapping("/owner/getOrder/{orderId}")
-	public ResponseEntity<HttpStatus> getOrder(@RequestParam long orderId){
+	public ResponseEntity<HttpStatus> getOrder(@RequestParam UUID orderId){
 		if(ownerService.getOrder(orderId)!=null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}else {
@@ -85,7 +86,7 @@ public class OwnerController {
 	}
 	
 	@PostMapping("owner/updateavailableseat/{restaurantId}")
-	public ResponseEntity<HttpStatus> updateAvailableSeats(@PathVariable long restaurantId,@RequestBody String availableNoOfSeats){
+	public ResponseEntity<HttpStatus> updateAvailableSeats(@PathVariable UUID restaurantId,@RequestBody String availableNoOfSeats){
 		
 		try {
 			JsonNode availableSeat = mapper.readTree(availableNoOfSeats);
@@ -103,7 +104,7 @@ public class OwnerController {
 	}
 	
 	@PostMapping("owner/updatetotalseat/{restaurantId}")
-	public ResponseEntity<HttpStatus> updateTotalSeats(@PathVariable long restaurantId,@RequestBody String updateTotalSeats){
+	public ResponseEntity<HttpStatus> updateTotalSeats(@PathVariable UUID restaurantId,@RequestBody String updateTotalSeats){
 		
 		try {
 			JsonNode totalSeat = mapper.readTree(updateTotalSeats);

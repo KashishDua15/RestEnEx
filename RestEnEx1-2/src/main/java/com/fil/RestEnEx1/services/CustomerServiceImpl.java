@@ -8,12 +8,15 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.fil.RestEnEx1.dao.CustomerDao;
+import com.fil.RestEnEx1.dao.MenuItemDao;
+import com.fil.RestEnEx1.dao.RestEnExOrdersDao;
 import com.fil.RestEnEx1.dao.CustomerOrdersDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
 import com.fil.RestEnEx1.dao.RestaurantOrdersDao;
 import com.fil.RestEnEx1.entities.Customer;
+import com.fil.RestEnEx1.entities.MenuItemDTO;
+import com.fil.RestEnEx1.entities.RestEnExOrders;
 import com.fil.RestEnEx1.entities.CustomerOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.entities.RestaurantOrders;
@@ -28,6 +31,9 @@ public class CustomerServiceImpl implements CustomerService{
 	private CustomerOrdersDao customerOrdersDao;
 	@Autowired
 	private RestaurantOrdersDao restaurantOrdersDao;
+	
+	@Autowired
+	private MenuItemDao menuitemdao;
 	
 
 //	@Override
@@ -160,5 +166,13 @@ public class CustomerServiceImpl implements CustomerService{
 		customer.setCustomerFavourites(customerFavourites);
 		customerDao.saveAndFlush(customer);
 		
+	}
+
+	@Override
+	public List<MenuItemDTO> getMenuByCategory(UUID customerId, String catagory) {
+
+		List<MenuItemDTO> menubycategory = menuitemdao.findByCategory(customerId, catagory);
+
+		return menubycategory;
 	}
 }

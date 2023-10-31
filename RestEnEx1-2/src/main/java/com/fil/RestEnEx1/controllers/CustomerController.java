@@ -20,7 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fil.RestEnEx1.dao.CustomerDao;
 import com.fil.RestEnEx1.entities.Customer;
+
+import com.fil.RestEnEx1.entities.MenuItem;
+import com.fil.RestEnEx1.entities.MenuItemDTO;
+import com.fil.RestEnEx1.entities.RestEnExOrders;
+
 import com.fil.RestEnEx1.entities.CustomerOrders;
+
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.CustomerService;
 import com.fil.RestEnEx1.services.OwnerService;
@@ -104,6 +110,14 @@ public class CustomerController {
 	public String addFavourite(@PathVariable UUID customerId,@RequestBody LinkedHashMap<String, String> object) {
 	customerService.addFavourite(customerId, object.get("restaurantName").toString());
 	return "";
+	}
+	
+	@GetMapping("/menufilter/{restaurantId}")
+	public ResponseEntity<List<MenuItemDTO>> getMenuByCategory(@PathVariable UUID restaurantId, @RequestBody String category)
+	{
+		List<MenuItemDTO>	 menu = customerService.getMenuByCategory(restaurantId, category);
+		System.out.println(menu);
+		return ResponseEntity.ok(menu);//menu;
 	}
 	
 

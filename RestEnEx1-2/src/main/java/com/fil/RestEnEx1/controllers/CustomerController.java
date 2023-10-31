@@ -1,5 +1,6 @@
 package com.fil.RestEnEx1.controllers;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,8 +46,9 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customer/signin")
-	public String customerSignIn(@RequestParam String email, @RequestParam String password) {
-		customerService.customerSignIn(email, password);
+	public String customerSignIn(@RequestBody LinkedHashMap<String, String> object) {
+		if(customerService.customerSignIn(object.get("email").toString(), object.get("password").toString())==null)
+			return "";
 		return "customersignin";
 	}
 
@@ -63,19 +65,21 @@ public class CustomerController {
 	}
 
 	@PostMapping("/{customerId}/restaurants/{restaurantId}/booktable")
-	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody Order order) {
+	public Order bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody Order order) {
 		Order orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
 		if(orderConfirmed==null)
-			return "";
-		return "bookTable";
+			return null;
+//		return "bookTable";
+		return orderConfirmed;
 	}
 	
 	@GetMapping("/{customerId}/repeatOrder")
-	public String repeatLastOrder(@PathVariable UUID customerId) {
+	public Order repeatLastOrder(@PathVariable UUID customerId) {
 		Order orderConfirmed = customerService.repeatOrder(customerId);
 		if(orderConfirmed==null)
-			return "";
-		return "bookTable";
+			return null;
+		return orderConfirmed;
+//		return "bookTable";
 	}
 
 }

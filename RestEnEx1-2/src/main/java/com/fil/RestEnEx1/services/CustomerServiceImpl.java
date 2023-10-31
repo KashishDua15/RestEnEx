@@ -49,19 +49,21 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public void customerSignUp(Customer customer) {
-		customerDao.save(customer);
+		customerDao.saveAndFlush(customer);
 	}
 
 	@Override
 	public Order bookTable(UUID restaurantId, UUID customerId, Order order) {
+	System.out.println(restaurantId+" cID = " + customerId);
 		Restaurant restaurant = restaurantDao.findById(restaurantId).get();
 		Customer customer = customerDao.findById(customerId).get();
+		
 		int availableSeats = restaurant.getRestaurantAvailableSeats();
 		if(availableSeats>0) {
 			restaurant.setRestaurantAvailableSeats(availableSeats-1);
 			order.setCustomer(customer);
 			order.setRestaurant(restaurant);
-			orderDao.save(order);
+			orderDao.saveAndFlush(order);
 			return order;
 		}
 		else 
@@ -86,7 +88,9 @@ public class CustomerServiceImpl implements CustomerService{
 					lastOrder.getCustomer(),
 					lastOrder.getRestaurant()
 					);
-			orderDao.save(newOrder);
+			System.out.println("ORDERRRRRRRRRRRR"+newOrder);
+			orderDao.saveAndFlush(newOrder);
+		
 			return newOrder;
 		}
 	}

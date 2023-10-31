@@ -34,7 +34,7 @@ public class OwnerServiceImpl implements OwnerService{
 	private MenuItemDao menuitemdao;
 	
 	public Restaurant addRestaurant(Restaurant restaurant) {
-		restaurantDao.save(restaurant);
+		restaurantDao.saveAndFlush(restaurant);
 		return restaurant;
 		
 		
@@ -44,14 +44,14 @@ public class OwnerServiceImpl implements OwnerService{
 		
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		res.setRestaurantAvailableSeats(availableNoOfSeats);
-		return restaurantDao.save(res);
+		return restaurantDao.saveAndFlush(res);
 
 	}
 	
 	public Restaurant updateTotalSeats(UUID restaurantId, int updateTotalSeats) {
 		Restaurant res=restaurantDao.findById(restaurantId).get();
 		res.setRestaurantTotalSeats(updateTotalSeats);
-		return restaurantDao.save(res);	
+		return restaurantDao.saveAndFlush(res);	
 	}
 	
 
@@ -60,7 +60,7 @@ public class OwnerServiceImpl implements OwnerService{
 		System.out.println(res);
 		menuItem.setRestaurant(res);
 		System.out.println(menuItem.getRestaurant());
-		menuitemdao.save(menuItem);
+		menuitemdao.saveAndFlush(menuItem);
 	}
 	
 	public int getRating(UUID restaurantId) {
@@ -95,7 +95,7 @@ public class OwnerServiceImpl implements OwnerService{
 	public void ownerSignUp(Owner owner) {
 		System.out.println(owner.getRestaurant());
 		Restaurant r = owner.getRestaurant();
-		restaurantDao.save(r);
+		restaurantDao.saveAndFlush(r);
 		ownerDao.save(owner);
 	}
 

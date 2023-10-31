@@ -96,7 +96,6 @@ public class OwnerServiceImpl implements OwnerService{
 		Restaurant r = owner.getRestaurant();
 		restaurantDao.save(r);
 		ownerDao.save(owner);
-//		owner.setRestaurant(new Restaurant(147258,"Zara's Zaika","Sector-48","Gurugram","1222011",30,30,2500,5));
 	}
 
 

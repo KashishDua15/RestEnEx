@@ -1,5 +1,6 @@
 package com.fil.RestEnEx1.controllers;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +51,10 @@ public class OwnerController {
 		}
 	
 	@PostMapping("/owner/signin")
-	public ResponseEntity<HttpStatus> ownerSignIn(@RequestParam String email, @RequestParam String password){
-		if(ownerService.ownerSignIn(email, password)==null)
+	public ResponseEntity<HttpStatus> ownerSignIn(@RequestBody LinkedHashMap<String, String> object){
+		
+		
+		if(ownerService.ownerSignIn(object.get("email").toString(), object.get("password").toString())==null)
 		return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK );
 	}

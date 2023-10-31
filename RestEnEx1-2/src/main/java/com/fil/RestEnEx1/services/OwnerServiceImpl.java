@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fil.RestEnEx1.dao.MenuItemDao;
-import com.fil.RestEnEx1.dao.OrderDao;
 import com.fil.RestEnEx1.dao.OwnerDao;
+import com.fil.RestEnEx1.dao.RestEnExOrdersDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
 import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.MenuItem;
-import com.fil.RestEnEx1.entities.Order;
 import com.fil.RestEnEx1.entities.Owner;
+import com.fil.RestEnEx1.entities.RestEnExOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 
 @Service
@@ -23,9 +23,9 @@ public class OwnerServiceImpl implements OwnerService{
 	
 	
 	@Autowired 
-	private OwnerDao ownerDao;
+	private RestEnExOrdersDao restEnExOrdersDao;
 	@Autowired 
-	private OrderDao orderDao;
+	private OwnerDao ownerDao;
 	
 	@Autowired
 	private RestaurantDao restaurantDao;
@@ -69,13 +69,13 @@ public class OwnerServiceImpl implements OwnerService{
 		return res.getResturantRating();	
 	}
 	
-	public Order getOrder (UUID orderId){
-		return orderDao.findById(orderId).get();
+	public RestEnExOrders getOrder (UUID orderId){
+		return restEnExOrdersDao.findById(orderId).get();
 		
 	}
 	
-	public List<Order> getAllOrders(){
-		return orderDao.findAll();
+	public List<RestEnExOrders> getAllOrders(){
+		return restEnExOrdersDao.findAll();
 		
 	}
 	
@@ -96,8 +96,9 @@ public class OwnerServiceImpl implements OwnerService{
 		System.out.println(owner.getRestaurant());
 		Restaurant r = owner.getRestaurant();
 		restaurantDao.saveAndFlush(r);
-		ownerDao.save(owner);
+		ownerDao.saveAndFlush(owner);
 	}
+
 
 
 }

@@ -17,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fil.RestEnEx1.dao.CustomerDao;
 import com.fil.RestEnEx1.entities.Customer;
-import com.fil.RestEnEx1.entities.Order;
+import com.fil.RestEnEx1.entities.RestEnExOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.CustomerService;
 
 @Controller
 public class CustomerController {
     
+	CustomerDao customerDao;
 	
 	@Autowired
 	private CustomerService customerService;
@@ -65,8 +67,8 @@ public class CustomerController {
 	}
 
 	@PostMapping("/{customerId}/restaurants/{restaurantId}/booktable")
-	public Order bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody Order order) {
-		Order orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
+	public RestEnExOrders bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody RestEnExOrders order) {
+		RestEnExOrders orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
 		if(orderConfirmed==null)
 			return null;
 //		return "bookTable";
@@ -74,8 +76,8 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/{customerId}/repeatOrder")
-	public Order repeatLastOrder(@PathVariable UUID customerId) {
-		Order orderConfirmed = customerService.repeatOrder(customerId);
+	public RestEnExOrders repeatLastOrder(@PathVariable UUID customerId) {
+		RestEnExOrders orderConfirmed = customerService.repeatOrder(customerId);
 		if(orderConfirmed==null)
 			return null;
 		return orderConfirmed;

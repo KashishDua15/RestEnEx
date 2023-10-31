@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.fil.RestEnEx1.entities.Customer;
-import com.fil.RestEnEx1.entities.Order;
+import com.fil.RestEnEx1.entities.RestEnExOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 
 public interface CustomerService {
@@ -16,7 +16,7 @@ public interface CustomerService {
 	public Customer customerSignIn(String email, String password);
 	public List<Restaurant> getAllRestaurantNames();
 	public Optional<Restaurant> getRestaurantById(UUID restaurantId);
-	public Order bookTable(UUID restaurantId, UUID customerId, Order order);
-	public Order repeatOrder(UUID customerId);
+	public RestEnExOrders bookTable(UUID restaurantId, UUID customerId, RestEnExOrders order);
+	public RestEnExOrders repeatOrder(UUID customerId);
 
 }

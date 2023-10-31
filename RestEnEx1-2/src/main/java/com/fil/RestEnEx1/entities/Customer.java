@@ -29,7 +29,7 @@ public class Customer {
 	private Address customerAddress;
 	private Set<String> customerFavourites = new LinkedHashSet<String>();
 	@OneToMany(mappedBy="customer")
-	private List<Order> orderHistory = new ArrayList<Order>();
+	private List<RestEnExOrders> orderHistory = new ArrayList<RestEnExOrders>();
 
 	public UUID getCustomerId() {
 		return customerId;
@@ -87,17 +87,17 @@ public class Customer {
 		this.customerFavourites = customerFavourites;
 	}
 
-	public List<Order> getOrderHistory() {
+	public List<RestEnExOrders> getOrderHistory() {
 		return orderHistory;
 	}
 
-	public void setOrderHistory(List<Order> orderHistory) {
+	public void setOrderHistory(List<RestEnExOrders> orderHistory) {
 		this.orderHistory = orderHistory;
 	}
 
 	public Customer(String customerName, String customerEmail, String customerContactNumber,
 			String customerPassword, Address customerAddress, Set<String> customerFavourites,
-			List<Order> orderHistory) {
+			List<RestEnExOrders> orderHistory) {
 		super();
 		this.customerName = customerName;
 		this.customerEmail = customerEmail;

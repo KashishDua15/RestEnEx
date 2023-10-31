@@ -15,8 +15,8 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name="restenxOrders")
-public class Order {
+@Table
+public class RestEnExOrders {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID orderId;
@@ -94,7 +94,7 @@ public class Order {
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
 	}
-	public Order(String restaurantName, String tableNumber, String numberOfPeople, String bill,
+	public RestEnExOrders(String restaurantName, String tableNumber, String numberOfPeople, String bill,
 			String paymentStatus, String restaurantRating, List<String> itemsOrdered, Customer customer, Restaurant restaurant) {
 		super();
 		this.restaurantName = restaurantName;
@@ -107,7 +107,7 @@ public class Order {
 		this.customer = customer;
 		this.restaurant = restaurant;
 	}
-	public Order() {
+	public RestEnExOrders() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

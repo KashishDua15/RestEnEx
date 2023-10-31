@@ -1,0 +1,80 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<style>
+		body {
+			margin: 5%;
+			background-color: navajowhite;
+			zoom: 190%;
+		}
+	</style>
+	<section class="vh-100">
+		<form align="center">
+			<h3>Create an account for Owner</h3>
+			<input type="Name" id="form3Example3" class="form-control form-control-lg"
+				placeholder="Enter your name" />
+			<label class="form-label" for="form3Example3"></label>
+			<br></br>
+			<input type="email" id="form3Example3" class="form-control form-control-lg"
+				placeholder="Enter your email" />
+			<label class="form-label" for="form3Example3"></label>
+			<br><br>
+			<input type="password" id="form3Example3" class="form-control form-control-lg"
+				placeholder=" Enter  password" />
+			<label class="form-label" for="form3Example3"></label>
+			<br><br>
+			<input type="text" id="form3Example3" class="form-control form-control-lg"
+				placeholder=" Address" />
+			<label class="form-label" for="form3Example3"></label>
+			<br>
+			<br>
+			<input type="number" id="form3Example3" class="form-control form-control-lg"
+				placeholder=" Contact no." />
+			<label class="form-label" for="form3Example3"></label>
+			<br><br>
+			
+			<button type="submit" form="form1" value="Register">Register</button>
+			<br>
+			 
+			<p>Have already an account?<a th:href="@{signin}">Login here</a></p>
+		</form>
+	</section>
+</head>
+
+</html><html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<style>
+		body {
+			margin: 5%;
+			background-color: navajowhite;
+			zoom: 190%;
+		}
+	</style>
+	<section class="vh-100">
+		<form align="center">
+			<h3>Sign in for Owner</h3>
+			<input type="email" id="form3Example3" class="form-control form-control-lg"
+				placeholder="Email address/Username" />
+			<label class="form-label" for="form3Example3"></label>
+			<br><br>
+			<input type="email" id="form3Example3" class="form-control form-control-lg"
+				placeholder=" Enter  password" />
+			<label class="form-label" for="form3Example3"></label>
+			<br>
+			<br>
+			
+			<input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+			<label class="form-check-label" for="form2Example31"> Remember me </label>
+			<br><br>
+			<a href="#!">Forgot password?</a>
+			<br><br>
+			<button type="submit" form="form1" value="Submit">Login</button>
+			<br>
+			 <p>Not a member?<a th:href="@{signup}">Register</a></p>
+			
+		</form>
+	</section>
+</head>
+
+</html>

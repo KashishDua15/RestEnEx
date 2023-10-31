@@ -27,6 +27,11 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	
+	@GetMapping("/home")
+	public String home() {
+		return"index";
+	}
+	
 	@GetMapping("/customer/signup")
 	public String customerSignUp() {
 		return "SignUpCustomer";

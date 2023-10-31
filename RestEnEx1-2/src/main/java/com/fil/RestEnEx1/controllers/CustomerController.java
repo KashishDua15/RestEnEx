@@ -45,7 +45,7 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customer/signin")
-	public String customerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword,Model model) {
+	public String customerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword) {
 	Customer customer=	customerService.customerSignIn(customerEmail, customerPassword);
 	if (customer != null) {
         return "SignInCustomer"; 

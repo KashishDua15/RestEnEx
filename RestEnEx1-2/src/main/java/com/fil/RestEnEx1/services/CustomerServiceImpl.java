@@ -109,4 +109,13 @@ public class CustomerServiceImpl implements CustomerService{
 				return null;
 		
 	}
+
+	@Override
+	public List<Restaurant> getResstaurantsByArea(String area) {
+		// TODO Auto-generated method stub
+		List<Restaurant> restaurants = restaurantDao.findAllByRestaurantArea(area);
+	System.out.println("HELLOOOo"+restaurants);
+		
+		return restaurants;
+	}
 }

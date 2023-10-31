@@ -22,6 +22,7 @@ import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.RestEnExOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.CustomerService;
+import com.fil.RestEnEx1.services.OwnerService;
 
 @Controller
 public class CustomerController {
@@ -90,5 +91,14 @@ public class CustomerController {
 			return null;
 		return "bookTable";
 	}
+	
+	@GetMapping("/restaurants/{area}")
+	public ResponseEntity<List<Restaurant>> getRestaurantByArea(@PathVariable String area) {
+		List<Restaurant> restaurants = customerService.getResstaurantsByArea(area);
+		System.out.println("REST"+restaurants);
+		return ResponseEntity.ok(restaurants); 
+		
+	}
+	
 
 }

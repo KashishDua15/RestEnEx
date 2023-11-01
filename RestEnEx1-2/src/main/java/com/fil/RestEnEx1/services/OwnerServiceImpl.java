@@ -83,11 +83,14 @@ public class OwnerServiceImpl implements OwnerService{
 	
 
 	@Override
-	public Owner ownerSignIn(String email, String password) {
+	public Restaurant ownerSignIn(String email, String password) {
 		Owner owner = ownerDao.findByEmailId(email);
 		if(owner!=null) {
-			if(owner.getPassword().equals(password))
-				return owner;
+			String encryptedpass = SHA256Util.getSHA256(password);
+			System.out.println("Encrpted"+encryptedpass);
+			if(owner.getPassword().equals(encryptedpass))
+				return owner.getRestaurant();
+
 		}
 		return null;
 		
@@ -99,7 +102,11 @@ public class OwnerServiceImpl implements OwnerService{
 		System.out.println(owner+" "+"helloooooooooooo");
 		
 		Restaurant r = owner.getRestaurant();
+
 		r.setOwner(owner);
+		restaurantDao.saveAndFlush(r);
+		owner.setPassword(SHA256Util.getSHA256(owner.getPassword()));
+		
 		ownerDao.saveAndFlush(owner);
 		restaurantDao.saveAndFlush(r);
 		

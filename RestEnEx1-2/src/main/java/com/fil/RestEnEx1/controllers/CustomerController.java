@@ -30,6 +30,8 @@ import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.CustomerService;
 import com.fil.RestEnEx1.services.OwnerService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class CustomerController {
 	
@@ -60,39 +62,41 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customer/signin")
-	public String customerSignIn(@RequestBody LinkedHashMap<String, String> object) {
+	public String customerSignIn(@RequestBody LinkedHashMap<String, String> object,  HttpSession session) throws Exception {
 	Customer customer =	customerService.customerSignIn(object.get("email").toString(), object.get("password").toString());
 	if (customer != null) {
+		session.setAttribute("userCustomer", customer);
         return "SignInCustomer"; 
     } else {
-        return "error"; 
+    	 throw new Exception("Not a valid user");
     }
 	}
 
-	@GetMapping("/allNames")
+	@GetMapping("/restaurants")
 	public String getAllRestaurantNames() {
 		customerService.getAllRestaurantNames();
 		return "getRestaurant";
 	}
 
-	@GetMapping("/allNames/{restaurantId}")
+	@GetMapping("/restaurants/{restaurantId}")
 	public String getRestaurantById(@PathVariable UUID restaurantId) {
 		Optional<Restaurant> restaurant = customerService.getRestaurantById(restaurantId);
 		return "restaurant";
 	}
 
-	@PostMapping("/{customerId}/restaurants/{restaurantId}/booktable")
-	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody CustomerOrders order) {
-		CustomerOrders orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
+	@PostMapping("/restaurants/{restaurantId}/booktable")
+	public String bookTable(@PathVariable UUID restaurantId, @RequestBody CustomerOrders order, HttpSession session) {
+		Customer customer = (Customer)session.getAttribute("userCustomer");
+		CustomerOrders orderConfirmed = customerService.bookTable(restaurantId, customer.getCustomerId(), order);
 		if(orderConfirmed==null)
 			return null;
 		return "bookTable";
 
 	}
-	
-	@GetMapping("/{customerId}/repeatOrder")
-	public String repeatLastOrder(@PathVariable UUID customerId) {
-		CustomerOrders orderConfirmed = customerService.repeatOrder(customerId);
+	@GetMapping("/repeatOrder")
+	public String repeatLastOrder(HttpSession session) {
+		Customer customer = (Customer)session.getAttribute("userCustomer");
+		CustomerOrders orderConfirmed = customerService.repeatOrder(customer.getCustomerId());
 		if(orderConfirmed==null)
 			return null;
 		return "bookTable";
@@ -105,16 +109,17 @@ public class CustomerController {
 		return ResponseEntity.ok(restaurants); 
 	}
 	
-	@PostMapping("/{customerId}/favourites")
-	public String addFavourite(@PathVariable UUID customerId,@RequestBody LinkedHashMap<String, String> object) {
-	customerService.addFavourite(customerId, object.get("restaurantName").toString());
-	return "";
+	@PostMapping("/favourites")
+	public String addFavourite(@RequestBody LinkedHashMap<String, String> object, HttpSession session) {
+		Customer customer = (Customer)session.getAttribute("userCustomer");
+		customerService.addFavourite(customer.getCustomerId(), object.get("restaurantName").toString());
+		return "";
 	}
 	
 	@GetMapping("/menufilter/{restaurantId}")
 	public ResponseEntity<List<MenuItemDTO>> getMenuByCategory(@PathVariable UUID restaurantId, @RequestBody String category)
 	{
-		List<MenuItemDTO>	 menu = customerService.getMenuByCategory(restaurantId, category);
+		List<MenuItemDTO> menu = customerService.getMenuByCategory(restaurantId, category);
 		System.out.println(menu);
 		return ResponseEntity.ok(menu);//menu;
 	}

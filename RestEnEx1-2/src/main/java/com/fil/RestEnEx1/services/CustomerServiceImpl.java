@@ -48,7 +48,9 @@ public class CustomerServiceImpl implements CustomerService{
 	public Customer customerSignIn(String customerEmail, String customerPassword) {
 		Customer customer = customerDao.findByCustomerEmail(customerEmail);
 		if(customer!=null) {
-			if(customer.getCustomerPassword().equals(customerPassword))
+			String encryptedpass = SHA256Util.getSHA256(customerPassword);
+			System.out.println("Encrpted"+encryptedpass);
+			if(customer.getCustomerPassword().equals(encryptedpass))
 				{
 					
 					return customer;
@@ -60,6 +62,7 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public void customerSignUp(Customer customer) {
 		System.out.println("Customer signup"+customer);
+		customer.setCustomerPassword(SHA256Util.getSHA256(customer.getCustomerPassword()));
 		customerDao.saveAndFlush(customer);
 	}
 

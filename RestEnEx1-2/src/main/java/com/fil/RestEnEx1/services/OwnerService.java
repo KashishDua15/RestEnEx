@@ -13,7 +13,7 @@ import com.fil.RestEnEx1.entities.Restaurant;
 public interface OwnerService {
 	
 	public void ownerSignUp(Owner owner);
-	public Owner ownerSignIn(String email, String password);
+	public Restaurant ownerSignIn(String email, String password);
 	public Restaurant addRestaurant(Restaurant restaurant);
 	public Restaurant updateAvailableSeats(UUID restaurantId,int availableNoOfSeats);
 	public Restaurant updateTotalSeats(UUID restaurantId,int updateTotalSeats);

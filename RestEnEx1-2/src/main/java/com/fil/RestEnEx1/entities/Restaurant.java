@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import com.fil.RestEnEx1.entities.*;
 
 @Entity
 @Table
@@ -35,10 +36,18 @@ public class Restaurant {
 	
 //	private MenuItem restaurantMenu;
 
-//	@OneToOne
+	@OneToOne
 //	@JoinColumn(name="ownerId" , nullable=false)
-//	private Owner owner;
+	private Owner owner;
 
+
+	public Owner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
 
 	public UUID getRestaurantId() {
 		return restaurantId;

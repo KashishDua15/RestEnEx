@@ -35,7 +35,7 @@ public class CustomerServiceImpl implements CustomerService{
 	
 
 //	@Override
-	public List<Restaurant> getAllRestaurantNames(){
+	public List<Restaurant> getAllRestaurants(){
 		return restaurantDao.findAll();
 	}
 
@@ -176,5 +176,10 @@ public class CustomerServiceImpl implements CustomerService{
 		List<MenuItemDTO> menubycategory = menuitemdao.findByCategory(customerId, catagory);
 
 		return menubycategory;
+	}
+	@Override
+	public List<CustomerOrders> getOrderHistory(UUID customerId) {
+		List<CustomerOrders> orderHistory = customerOrdersDao.findAllByCustomerId(customerId);
+		return orderHistory;
 	}
 }

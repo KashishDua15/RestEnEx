@@ -102,13 +102,14 @@ public class OwnerServiceImpl implements OwnerService{
 		System.out.println(owner+" "+"helloooooooooooo");
 		
 		Restaurant r = owner.getRestaurant();
-
-		r.setOwner(owner);
-		restaurantDao.saveAndFlush(r);
 		owner.setPassword(SHA256Util.getSHA256(owner.getPassword()));
-		
+		r.setOwner(owner);
 		ownerDao.saveAndFlush(owner);
 		restaurantDao.saveAndFlush(r);
+		
+		
+//		
+//		restaurantDao.saveAndFlush(r);
 		
 		
 	}

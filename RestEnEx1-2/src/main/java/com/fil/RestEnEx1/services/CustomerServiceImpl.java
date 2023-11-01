@@ -47,12 +47,13 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public Customer customerSignIn(String customerEmail, String customerPassword) {
 		Customer customer = customerDao.findByCustomerEmail(customerEmail);
+		System.out.println("Signin"+customer);
 		if(customer!=null) {
 			String encryptedpass = SHA256Util.getSHA256(customerPassword);
 			System.out.println("Encrpted"+encryptedpass);
 			if(customer.getCustomerPassword().equals(encryptedpass))
 				{
-					
+				System.out.println("Signin2"+customer);
 					return customer;
 				}
 		}

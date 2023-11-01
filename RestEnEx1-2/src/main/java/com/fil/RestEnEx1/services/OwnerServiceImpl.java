@@ -81,11 +81,14 @@ public class OwnerServiceImpl implements OwnerService{
 	
 
 	@Override
-	public Owner ownerSignIn(String email, String password) {
+	public Restaurant ownerSignIn(String email, String password) {
 		Owner owner = ownerDao.findByEmailId(email);
 		if(owner!=null) {
 			if(owner.getPassword().equals(password))
-				return owner;
+			{
+				return owner.getRestaurant();
+			}
+				
 		}
 		return null;
 		

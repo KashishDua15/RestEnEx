@@ -68,15 +68,6 @@ public class OwnerController {
 		return "error";
 	}
 
-	public ResponseEntity<HttpStatus> ownerSignIn(@RequestBody LinkedHashMap<String, String> object, HttpSession session){
-		Restaurant restaurant = ownerService.ownerSignIn(object.get("email").toString(), object.get("password").toString());
-		if(restaurant==null)
-		return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
-		session.setAttribute("userOwnerRestaurant", restaurant);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK );
-
-	}
-
 	@PostMapping("/owner/addrestaurant")
 	public ResponseEntity<HttpStatus> addRestaurant(@RequestBody Restaurant restaurant) {
 		if(ownerService.addRestaurant(restaurant) == null)

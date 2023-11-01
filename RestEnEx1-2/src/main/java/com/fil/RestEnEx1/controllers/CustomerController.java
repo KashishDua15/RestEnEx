@@ -49,26 +49,26 @@ public class CustomerController {
 	}
 
 	@PostMapping("/customer/signup")
-//	public String customerSignUp(@ModelAttribute("customer") Customer customer) {
-	public String customerSignUp(@RequestBody Customer customer) {
+	public String customerSignUp(@ModelAttribute("customer") Customer customer) {
+	//public String customerSignUp(@RequestBody Customer customer) {
 		System.out.println("Customer signup"+customer);
 		customerService.customerSignUp(customer);
 		return "SignUpCustomer";
 	}
 	
 	@GetMapping("/customer/signin")
-	public String ownerSignIn() {
+	public String customerSignIn() {
 		return "SignInCustomer";
 	}
 	
 	@PostMapping("/customer/signin")
-	public String customerSignIn(@RequestBody LinkedHashMap<String, String> object,  HttpSession session) throws Exception {
-	Customer customer =	customerService.customerSignIn(object.get("email").toString(), object.get("password").toString());
+	public String ownerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword,HttpSession session) {
+	Customer customer =	customerService.customerSignIn(customerEmail,customerPassword);
 	if (customer != null) {
 		session.setAttribute("userCustomer", customer);
         return "SignInCustomer"; 
     } else {
-    	 throw new Exception("Not a valid user");
+    	return "error";
     }
 	}
 

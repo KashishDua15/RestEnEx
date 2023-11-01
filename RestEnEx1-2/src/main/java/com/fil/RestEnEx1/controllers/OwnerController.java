@@ -67,11 +67,14 @@ public class OwnerController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	
 	}
-	
+	@GetMapping("/owner/addmenu")
+	public String addMenu() {
+		return "MenuItem";
+	}
 	@PostMapping("/owner/addmenu/{restaurantId}")
-	public String  addMenu(@PathVariable UUID restaurantId,@RequestBody MenuItem menuItem){
+	public String  addMenu(@PathVariable UUID restaurantId,@RequestBody MenuItem menuItem,Model model){
 		System.out.println(restaurantId);
-		ownerService.addMenuItem(restaurantId, menuItem);
+		//model.addAttribute(ownerService.addMenuItem(restaurantId, menuItem));
 		return "menu added successfully";
 		
 	}

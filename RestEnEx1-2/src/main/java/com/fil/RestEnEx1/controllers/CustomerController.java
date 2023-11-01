@@ -50,7 +50,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/customer/signin")
-	public String ownerSignIn() {
+	public String customerSignIn() {
 		return "SignInCustomer";
 	}
 

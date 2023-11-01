@@ -83,10 +83,6 @@ public class CustomerController {
 	}
 
 	@PostMapping("/{customerId}/restaurants/{restaurantId}/booktable")
-	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId,
-			@RequestBody RestEnExOrders order) {
-		RestEnExOrders orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
-		if (orderConfirmed == null)
 	public String bookTable(@PathVariable UUID customerId, @PathVariable UUID restaurantId, @RequestBody CustomerOrders order) {
 		CustomerOrders orderConfirmed = customerService.bookTable(restaurantId, customerId, order);
 		if(orderConfirmed==null)
@@ -97,8 +93,6 @@ public class CustomerController {
 
 	@GetMapping("/{customerId}/repeatOrder")
 	public String repeatLastOrder(@PathVariable UUID customerId) {
-		RestEnExOrders orderConfirmed = customerService.repeatOrder(customerId);
-		if (orderConfirmed == null)
 		CustomerOrders orderConfirmed = customerService.repeatOrder(customerId);
 		if(orderConfirmed==null)
 			return null;

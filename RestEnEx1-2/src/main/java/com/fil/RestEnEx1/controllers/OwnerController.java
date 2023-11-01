@@ -27,6 +27,8 @@ import com.fil.RestEnEx1.entities.Owner;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.OwnerService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class OwnerController {
 	
@@ -52,11 +54,11 @@ public class OwnerController {
 		}
 	
 	@PostMapping("/owner/signin")
-	public ResponseEntity<HttpStatus> ownerSignIn(@RequestBody LinkedHashMap<String, String> object){
-		
-		
-		if(ownerService.ownerSignIn(object.get("email").toString(), object.get("password").toString())==null)
+	public ResponseEntity<HttpStatus> ownerSignIn(@RequestBody LinkedHashMap<String, String> object, HttpSession session){
+		Restaurant restaurant = ownerService.ownerSignIn(object.get("email").toString(), object.get("password").toString());
+		if(restaurant==null)
 		return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
+		session.setAttribute("userOwnerRestaurant", restaurant);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK );
 	}
 	
@@ -71,10 +73,14 @@ public class OwnerController {
 	public String addMenu() {
 		return "MenuItem";
 	}
-	@PostMapping("/owner/addmenu/{restaurantId}")
-	public String  addMenu(@PathVariable UUID restaurantId,@RequestBody MenuItem menuItem,Model model){
-		System.out.println(restaurantId);
-		//model.addAttribute(ownerService.addMenuItem(restaurantId, menuItem));
+	
+	
+	@PostMapping("/owner/addmenu")
+	public String  addMenu(@RequestBody MenuItem menuItem, HttpSession session){
+		Restaurant restaurant = (Restaurant)session.getAttribute("userOwnerRestaurant");
+		System.out.println(restaurant.getRestaurantId());
+		ownerService.addMenuItem(restaurant.getRestaurantId(), menuItem);
+
 		return "menu added successfully";
 		
 	}
@@ -88,12 +94,13 @@ public class OwnerController {
 		}
 	}
 	
-	@PostMapping("owner/updateavailableseat/{restaurantId}")
-	public ResponseEntity<HttpStatus> updateAvailableSeats(@PathVariable UUID restaurantId,@RequestBody String availableNoOfSeats){
+	@PostMapping("owner/updateavailableseat")
+	public ResponseEntity<HttpStatus> updateAvailableSeats(@RequestBody String availableNoOfSeats, HttpSession session){
 		
 		try {
 			JsonNode availableSeat = mapper.readTree(availableNoOfSeats);
-			ownerService.updateAvailableSeats(restaurantId, Integer.parseInt(availableSeat.get("restaurantAvailableSeats").asText()));
+			Restaurant restaurant = (Restaurant)session.getAttribute("userOwnerRestaurant");
+			ownerService.updateAvailableSeats(restaurant.getRestaurantId(), Integer.parseInt(availableSeat.get("restaurantAvailableSeats").asText()));
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,12 +113,13 @@ public class OwnerController {
 		
 	}
 	
-	@PostMapping("owner/updatetotalseat/{restaurantId}")
-	public ResponseEntity<HttpStatus> updateTotalSeats(@PathVariable UUID restaurantId,@RequestBody String updateTotalSeats){
+	@PostMapping("owner/updatetotalseat")
+	public ResponseEntity<HttpStatus> updateTotalSeats(@RequestBody String updateTotalSeats, HttpSession session){
 		
 		try {
 			JsonNode totalSeat = mapper.readTree(updateTotalSeats);
-			ownerService.updateAvailableSeats(restaurantId, Integer.parseInt(totalSeat.get("restaurantTotalSeats").asText()));
+			Restaurant restaurant = (Restaurant)session.getAttribute("userOwnerRestaurant");
+			ownerService.updateAvailableSeats(restaurant.getRestaurantId(), Integer.parseInt(totalSeat.get("restaurantTotalSeats").asText()));
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

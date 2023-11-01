@@ -18,6 +18,8 @@ import com.fil.RestEnEx1.entities.Owner;
 import com.fil.RestEnEx1.entities.CustomerOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class OwnerServiceImpl implements OwnerService{
 	
@@ -93,10 +95,15 @@ public class OwnerServiceImpl implements OwnerService{
 
 	@Override
 	public void ownerSignUp(Owner owner) {
-		System.out.println(owner.getRestaurant());
+	
+		System.out.println(owner+" "+"helloooooooooooo");
+		
 		Restaurant r = owner.getRestaurant();
-		restaurantDao.saveAndFlush(r);
+		r.setOwner(owner);
 		ownerDao.saveAndFlush(owner);
+		restaurantDao.saveAndFlush(r);
+		
+		
 	}
 
 

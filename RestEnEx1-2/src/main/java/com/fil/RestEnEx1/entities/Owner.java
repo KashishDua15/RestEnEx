@@ -2,7 +2,9 @@ package com.fil.RestEnEx1.entities;
 
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,15 +17,15 @@ import jakarta.persistence.Table;
 public class Owner {
   
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private UUID ownerId; 
 	private String name;
 	private String contactno;
 	private String emailId;
 	private String password;
 	
-	@OneToOne
-	@JoinColumn(name="restaurantId" )
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "owner")
+//	@JoinColumn(name="restaurantId" )
 	private Restaurant restaurant;
 
 	public UUID getOwnerId() {

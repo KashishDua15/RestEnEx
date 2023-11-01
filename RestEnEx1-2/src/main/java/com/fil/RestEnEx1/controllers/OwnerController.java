@@ -43,9 +43,9 @@ public class OwnerController {
 
 	@PostMapping("/owner/signup")
 	public String ownerSignUp(@ModelAttribute("owner") Owner owner) {
-		System.out.println("Owner signup"+owner);
+		System.out.println("Owner signup" + owner);
 		ownerService.ownerSignUp(owner);
-		
+
 		return "SignUpOwner";
 	}
 
@@ -55,11 +55,12 @@ public class OwnerController {
 	}
 
 	@PostMapping("/owner/signin")
-	public String ownerSignIn(@RequestParam String emailId,String password) {
-		if (ownerService.ownerSignIn(emailId,password) == null) {
-			return "error";
+	public String ownerSignIn(@RequestParam String emailId, @RequestParam String password) {
+		Owner owner=ownerService.ownerSignIn(emailId, password);
+		if ( owner != null) {
+			return "SignInOwner";
 		}
-		return "SignInOwner";
+		return "error";
 	}
 
 	@PostMapping("/owner/addrestaurant")

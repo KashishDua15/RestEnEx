@@ -69,12 +69,18 @@ public class OwnerController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	
 	}
+	@GetMapping("/owner/addmenu")
+	public String addMenu() {
+		return "MenuItem";
+	}
+	
 	
 	@PostMapping("/owner/addmenu")
 	public String  addMenu(@RequestBody MenuItem menuItem, HttpSession session){
 		Restaurant restaurant = (Restaurant)session.getAttribute("userOwnerRestaurant");
 		System.out.println(restaurant.getRestaurantId());
 		ownerService.addMenuItem(restaurant.getRestaurantId(), menuItem);
+
 		return "menu added successfully";
 		
 	}

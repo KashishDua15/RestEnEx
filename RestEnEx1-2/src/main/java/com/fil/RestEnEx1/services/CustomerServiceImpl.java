@@ -41,8 +41,8 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public Optional<Restaurant> getRestaurantById(UUID restaurantId) {
-		return restaurantDao.findById(restaurantId);
+	public Restaurant getRestaurantById(UUID restaurantId) {
+		return restaurantDao.findById(restaurantId).get();
 	}
 
 	@Override
@@ -102,6 +102,8 @@ public class CustomerServiceImpl implements CustomerService{
 					order.getBill(),
 					order.getPaymentStatus(),
 					order.getRestaurantRating(),
+					order.getDateBookedFor(),
+					order.getTimeBookedFor(),
 					order.getItemsOrdered(),
 					new Date(),
 					customerId,
@@ -139,6 +141,8 @@ public class CustomerServiceImpl implements CustomerService{
 						lastOrder.getBill(),
 						lastOrder.getPaymentStatus(),
 						lastOrder.getRestaurantRating(),
+						lastOrder.getDateBookedFor(),
+						lastOrder.getTimeBookedFor(),
 						lastOrder.getItemsOrdered(),
 						new Date(),
 						lastOrder.getRestaurant_id(),
@@ -151,6 +155,8 @@ public class CustomerServiceImpl implements CustomerService{
 						lastOrder.getBill(),
 						lastOrder.getPaymentStatus(),
 						lastOrder.getRestaurantRating(),
+						lastOrder.getDateBookedFor(),
+						lastOrder.getTimeBookedFor(),
 						lastOrder.getItemsOrdered(),
 						new Date(),
 						customerId,

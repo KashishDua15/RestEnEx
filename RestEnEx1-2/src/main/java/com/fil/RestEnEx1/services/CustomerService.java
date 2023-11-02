@@ -21,7 +21,7 @@ public interface CustomerService {
 	public Customer customerSignIn(String email, String password);
 	public List<Restaurant> getAllRestaurants();
 	public List<Restaurant> getResstaurantsByArea(String area);
-	public Optional<Restaurant> getRestaurantById(UUID restaurantId);
+	public Restaurant getRestaurantById(UUID restaurantId);
 	public CustomerOrders bookTable(UUID restaurantId, UUID customerId, CustomerOrders order);
 	public CustomerOrders repeatOrder(UUID customerId);
 	public Customer addFavourite(UUID customerId,String restaurantName);

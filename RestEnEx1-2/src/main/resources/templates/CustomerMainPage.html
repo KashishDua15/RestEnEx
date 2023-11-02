@@ -116,10 +116,6 @@
 				</div>
 
 				<div class="row">
-					<!--<tr th:each="attr : ${#servletContext.getAttributeNames()}">
-                <td th:text="${attr}">javax.servlet.context.tempdir</td>
-                <td th:text="${#servletContext.getAttribute(attr)}">/tmp</td>
-            </tr>-->
 					<th:block th:each="order: ${customerDetails.orderHistory}">
 
 						<div class="col-lg-4">
@@ -202,9 +198,10 @@
 									<span th:inline="text">[[${restaurant.restaurantMealForTwo}]] for two</span>
 									<span th:inline="text">[[${restaurant.restaurantArea}]]</span>
 									<div class="social">
-										<a th:href="@{|/restaurants/${restaurant.restaurantId}/booktable|}"
+										<a 
+										th:href="@{/restaurants/booktable/{restaurantId}(restaurantId=${restaurant.restaurantId})}"
 											class="book-a-table-btn scrollto">Book a table</a>
-
+<!--th:href="@{|/restaurants/${restaurant.restaurantId}/booktable|}"-->
 										<form method="post" th:action="@{/addtofavourites}">
 											<input type="hidden" name="restaurantName"
 												th:value="${restaurant.restaurantName}" />

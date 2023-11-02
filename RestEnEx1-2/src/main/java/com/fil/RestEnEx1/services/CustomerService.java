@@ -24,7 +24,7 @@ public interface CustomerService {
 	public Optional<Restaurant> getRestaurantById(UUID restaurantId);
 	public CustomerOrders bookTable(UUID restaurantId, UUID customerId, CustomerOrders order);
 	public CustomerOrders repeatOrder(UUID customerId);
-	public void addFavourite(UUID customerId,String restaurantName);
+	public Customer addFavourite(UUID customerId,String restaurantName);
 	public List<MenuItemDTO> getMenuByCategory(UUID customerId,String catagory);
 	public List<CustomerOrders> getOrderHistory(UUID customerId);
 

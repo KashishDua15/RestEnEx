@@ -142,7 +142,12 @@ h6 {
 /*--------------------------------------------------------------
 # Book a table button Menu
 --------------------------------------------------------------*/
-
+.clicked{
+	background-color: #18d26e;
+}
+.unclicked{
+	background-color: black;
+}
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */

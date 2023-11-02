@@ -51,7 +51,7 @@ public class OwnerController {
 		System.out.println("Owner signup" + owner);
 		ownerService.ownerSignUp(owner);
 
-		return "SignUpOwner";
+		return "SignInOwner";
 	}
 
 

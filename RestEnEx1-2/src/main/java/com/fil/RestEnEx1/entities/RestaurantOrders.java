@@ -26,10 +26,28 @@ public class RestaurantOrders {
 	private String bill;
 	private String paymentStatus;
 	private String restaurantRating;
+	private String dateBookedFor;
+	private String timeBookedFor;
 	private List<String> itemsOrdered = new ArrayList<String>();
 	private Date dateOrdered;
 	private UUID customerId;
 	
+	public String getDateBookedFor() {
+		return dateBookedFor;
+	}
+
+	public void setDateBookedFor(String dateBookedFor) {
+		this.dateBookedFor = dateBookedFor;
+	}
+
+	public String getTimeBookedFor() {
+		return timeBookedFor;
+	}
+
+	public void setTimeBookedFor(String timeBookedFor) {
+		this.timeBookedFor = timeBookedFor;
+	}
+
 	@ManyToOne
     @JoinColumn(name="restaurantId", nullable=false)
     private Restaurant restaurant;
@@ -124,9 +142,11 @@ public class RestaurantOrders {
 		this.customerId = customerId;
 	}
 
+
+
 	public RestaurantOrders(String restaurantName, String tableNumber, String numberOfPeople, String bill,
-			String paymentStatus, String restaurantRating, List<String> itemsOrdered, Date dateOrdered, UUID customerId,
-			Restaurant restaurant) {
+			String paymentStatus, String restaurantRating, String dateBookedFor, String timeBookedFor,
+			List<String> itemsOrdered, Date dateOrdered, UUID customerId, Restaurant restaurant) {
 		super();
 		this.restaurantName = restaurantName;
 		this.tableNumber = tableNumber;
@@ -134,6 +154,8 @@ public class RestaurantOrders {
 		this.bill = bill;
 		this.paymentStatus = paymentStatus;
 		this.restaurantRating = restaurantRating;
+		this.dateBookedFor = dateBookedFor;
+		this.timeBookedFor = timeBookedFor;
 		this.itemsOrdered = itemsOrdered;
 		this.dateOrdered = dateOrdered;
 		this.customerId = customerId;

@@ -41,6 +41,7 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	private CustomerMainPageDetails customerDetails = new CustomerMainPageDetails() ;
+	private UUID restaurantIdForBooking;
 	
 	@GetMapping("/home")
 	public ModelAndView home(HttpSession session) {
@@ -98,26 +99,36 @@ public class CustomerController {
 
 	@GetMapping("/restaurants/{restaurantId}")
 	public String getRestaurantById(@PathVariable UUID restaurantId) {
-		Optional<Restaurant> restaurant = customerService.getRestaurantById(restaurantId);
+		Restaurant restaurant = customerService.getRestaurantById(restaurantId);
 		return "restaurant";
 	}
 	
-	@GetMapping("/restaurants/{restaurantId}/booktable")
-	public String customerRestaurantPage() {
-		return "index";
+	@GetMapping("/restaurants/booktable/{restaurantId}")
+	public ModelAndView customerRestaurantPage(@PathVariable String restaurantId, HttpSession sessions) {
+		ModelAndView modelAndView = new ModelAndView();
+		System.out.println("Session"+sessions.getAttribute("customerDetails"));
+		customerDetails.setRestaurant(customerService.getRestaurantById(UUID.fromString(restaurantId)));
+		modelAndView.addObject("customerDetails", customerDetails);
+		System.out.println("RESTAURANTID"+restaurantId+" "+customerDetails);
+		restaurantIdForBooking = UUID.fromString(restaurantId);
+		modelAndView.setViewName("index");
+		
+		return modelAndView;
 	}
 
-	@PostMapping("/restaurants/{restaurantId}/booktable")
-	public String bookTable(@PathVariable UUID restaurantId, @RequestBody CustomerOrders order, HttpSession session) {
-		System.out.println("Session set"+session.getAttribute("customerDetails"));
+	@PostMapping("/restaurants/booktable")
+	public ModelAndView bookTable(@ModelAttribute("order") CustomerOrders order, HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
 		CustomerMainPageDetails customerDetails = (CustomerMainPageDetails)session.getAttribute("customerDetails");
-		System.out.println("Session set"+customerDetails);
+		System.out.println("Session set"+modelAndView.getModelMap()+" "+session.getAttribute("customerDetails"));
+
 		Customer customer = customerDetails.getCustomer();
-		UUID id = UUID.fromString("f15b51a2-fc9d-4e1e-82d5-bb81e86d8009");
-		CustomerOrders orderConfirmed = customerService.bookTable(restaurantId, id, order);
+		modelAndView.addObject("customerDetails", customerDetails);
+		modelAndView.setViewName("index");
+		CustomerOrders orderConfirmed = customerService.bookTable(restaurantIdForBooking, customer.getCustomerId(), order);
 		if(orderConfirmed==null)
 			return null;
-		return "index";
+		return modelAndView;
 
 	}
 	@GetMapping("/repeatOrder")

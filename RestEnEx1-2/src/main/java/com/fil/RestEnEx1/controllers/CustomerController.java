@@ -42,7 +42,7 @@ public class CustomerController {
 	private CustomerService customerService;
 	private CustomerMainPageDetails customerDetails = new CustomerMainPageDetails() ;
 	
-	@GetMapping("/home")
+	@GetMapping("/customer/home")
 	public ModelAndView home(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 	    modelAndView.addObject("customerDetails", (CustomerMainPageDetails)session.getAttribute("customerDetails"));

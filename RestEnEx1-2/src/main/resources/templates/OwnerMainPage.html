@@ -9,22 +9,22 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="/customerMainPage/img/favicon.png" rel="icon">
-  <link href="/customerMainPage/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/restaurantMainPage/img/favicon.png" rel="icon">
+  <link href="/restaurantMainPage/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="/customerMainPage/vendor/animate.css/animate.min.css" rel="stylesheet">
-  <link href="/customerMainPage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/customerMainPage/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="/customerMainPage/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="/customerMainPage/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="/customerMainPage/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="/restaurantMainPage/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/restaurantMainPage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/restaurantMainPage/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/restaurantMainPage/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/restaurantMainPage/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="/restaurantMainPage/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="/customerMainPage/css/style.css" rel="stylesheet">
+  <link href="/restaurantMainPage/css/style.css" rel="stylesheet">
   <!-- =======================================================
   * Template Name: Delicious
   * Updated: Sep 18 2023 with Bootstrap v5.3.2
@@ -42,14 +42,14 @@
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <div class="logo me-auto">
-        <h2><a href="customerindex.html" style="color: black;font-weight: 900;">RestEnEx</a></h2>
+        <h2><a href="restaurantindex.html" style="color: black;font-weight: 900;">RestEnEx</a></h2>
         <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="customerindex.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+        <!-- <a href="restaurantindex.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
 
-      <a href="#restaurants" class="book-a-table-header-btn scrollto">Book a table</a>
-      <form method="GET" th:action="@{/repeatOrder}">
-     <button type="submit" id="repeatOrder" class="book-a-table-header-btn scrollto">Repeat Last Order</button>
+      <a href="#restaurants" class="book-a-table-header-btn scrollto">Update available seats</a>
+      <form method="post" th:action="@{/owner/updateavailableseat}">
+     <button type="submit" id="update seats" class="book-a-table-header-btn scrollto">Update Available Seats</button>
 </form>
      
 
@@ -110,7 +110,7 @@
                 <td th:text="${attr}">javax.servlet.context.tempdir</td>
                 <td th:text="${#servletContext.getAttribute(attr)}">/tmp</td>
             </tr>-->
-           <th:block th:each="order: ${ownerDetails.orderHistory}">
+           <th:block th:each="order: ${customerDetails.orderHistory}">
 				
           <div class="col-lg-4" >
             <div class="box">
@@ -140,12 +140,12 @@
      </div>
 
         <div class="row">
-			<th:block th:each="restaurant: ${ownerDetails.restaurants}">
+			<th:block th:each="restaurant: ${customerDetails.restaurants}">
           <div class="col-lg-4 col-md-6">
             <div class="member">
-              <div class="pic"><img src="/ownerMainPage/img/chefs/chefs-1.jpg" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="/customerMainPage/img/chefs/chefs-1.jpg" class="img-fluid" alt=""></div>
               <div class="member-info">
-                <h4 th:text="${owner.ownerName}"></h4>
+                <h4 th:text="${restaurant.restaurantName}"></h4>
                 <span th:inline="text">[[${restaurant.restaurantMealForTwo}]] for two</span>
                 <div class="social">
                   <a href="#book-a-table" class="book-a-table-btn scrollto">Book a table</a>

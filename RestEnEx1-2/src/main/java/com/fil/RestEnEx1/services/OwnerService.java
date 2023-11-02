@@ -9,6 +9,7 @@ import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.Owner;
 import com.fil.RestEnEx1.entities.CustomerOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
+import com.fil.RestEnEx1.entities.RestaurantOrders;
 
 public interface OwnerService {
 	
@@ -20,6 +21,6 @@ public interface OwnerService {
 	public void addMenuItem(UUID restaurantId,MenuItem menuItem);
 	public int getRating(UUID restaurantId);
 	public CustomerOrders getOrder (UUID orderId);
-	public List<CustomerOrders> getAllOrders();
+	public List<RestaurantOrders> getAllOrders(String restaurantName);
 	
 }

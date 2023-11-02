@@ -13,11 +13,13 @@ import com.fil.RestEnEx1.dao.MenuItemDao;
 import com.fil.RestEnEx1.dao.OwnerDao;
 import com.fil.RestEnEx1.dao.CustomerOrdersDao;
 import com.fil.RestEnEx1.dao.RestaurantDao;
+import com.fil.RestEnEx1.dao.RestaurantOrdersDao;
 import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.Owner;
 import com.fil.RestEnEx1.entities.CustomerOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
+import com.fil.RestEnEx1.entities.RestaurantOrders;
 
 import jakarta.transaction.Transactional;
 
@@ -27,6 +29,10 @@ public class OwnerServiceImpl implements OwnerService{
 	
 	@Autowired 
 	private CustomerOrdersDao customerOrdersDao;
+	
+	@Autowired
+	private RestaurantOrdersDao restaurantOrdersDao;
+	
 	@Autowired 
 	private OwnerDao ownerDao;
 	
@@ -78,8 +84,8 @@ public class OwnerServiceImpl implements OwnerService{
 		
 	}
 	
-	public List<CustomerOrders> getAllOrders(){
-		return customerOrdersDao.findAll();
+	public List<RestaurantOrders> getAllOrders(String restaurantName){
+		return restaurantOrdersDao.findAllByRestaurantName(restaurantName);
 		
 	}
 	
@@ -155,5 +161,7 @@ public class OwnerServiceImpl implements OwnerService{
 	    return pat.matcher(mobileNumber).matches();
 
 }
+
+
 
 }

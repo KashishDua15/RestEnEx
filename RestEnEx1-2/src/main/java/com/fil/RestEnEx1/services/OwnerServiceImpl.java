@@ -122,10 +122,11 @@ public class OwnerServiceImpl implements OwnerService{
 		}
 		else
 		{
-      r.setOwner(owner);
-			restaurantDao.saveAndFlush(r);
+      
 			owner.setPassword(SHA256Util.getSHA256(owner.getPassword()));
 			ownerDao.saveAndFlush(owner);
+			r.setOwner(owner);
+			restaurantDao.saveAndFlush(r);
 		}
 	}
 

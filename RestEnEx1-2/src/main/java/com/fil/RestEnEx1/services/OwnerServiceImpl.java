@@ -127,7 +127,7 @@ public class OwnerServiceImpl implements OwnerService{
 			owner.setPassword(SHA256Util.getSHA256(owner.getPassword()));
 			ownerDao.saveAndFlush(owner);
 		}
-
+	}
 
 	private boolean isValidEmail(String email) {
 	    String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";

@@ -17,7 +17,7 @@ import com.fil.RestEnEx1.entities.Restaurant;
 
 public interface CustomerService {
 	
-	public void customerSignUp(Customer customer);
+	public void customerSignUp(Customer customer) throws ValidationException;
 	public Customer customerSignIn(String email, String password);
 	public List<Restaurant> getAllRestaurantNames();
 	public List<Restaurant> getResstaurantsByArea(String area);

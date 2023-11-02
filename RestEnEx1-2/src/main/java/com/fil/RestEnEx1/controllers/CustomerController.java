@@ -29,6 +29,7 @@ import com.fil.RestEnEx1.entities.CustomerOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.CustomerService;
 import com.fil.RestEnEx1.services.OwnerService;
+import com.fil.RestEnEx1.services.ValidationException;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -50,7 +51,7 @@ public class CustomerController {
 
 	@PostMapping("/customer/signup")
 //	public String customerSignUp(@ModelAttribute("customer") Customer customer) {
-	public String customerSignUp(@RequestBody Customer customer) {
+	public String customerSignUp(@RequestBody Customer customer) throws ValidationException {
 		System.out.println("Customer signup"+customer);
 		customerService.customerSignUp(customer);
 		return "SignUpCustomer";

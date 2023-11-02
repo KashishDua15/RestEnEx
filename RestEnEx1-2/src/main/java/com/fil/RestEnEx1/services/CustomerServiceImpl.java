@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,8 +61,25 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public void customerSignUp(Customer customer) {
+	public void customerSignUp(Customer customer) throws ValidationException {
 		System.out.println("Customer signup"+customer);
+		if(!isValidEmail(customer.getCustomerEmail()))
+		{
+			throw new ValidationException("Please enter a valid email. ");
+		}
+		else if(!isValidPassword(customer.getCustomerPassword()))
+		{
+			throw new ValidationException("Please enter a valid password. The password must contain at least one digit.\r\n"
+					+ "The password must contain at least one lowercase English character.\r\n"
+					+ "The password must contain at least one uppercase English character.\r\n"
+					+ "The password must contain at least one special character.\r\n"
+					+ "The password must not contain any whitespace.\r\n"
+					+ "The password must be between 8 and 20 characters long.");
+		}
+		else if (!isValidMobileNumber(customer.getCustomerContactNumber()))
+		{
+			throw new ValidationException("Please enter a valid contact number. ");
+		}
 		customer.setCustomerPassword(SHA256Util.getSHA256(customer.getCustomerPassword()));
 		customerDao.saveAndFlush(customer);
 	}
@@ -176,4 +194,32 @@ public class CustomerServiceImpl implements CustomerService{
 
 		return menubycategory;
 	}
+	
+	
+	private boolean isValidEmail(String email) {
+	    String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+	    Pattern pat = Pattern.compile(emailRegex);
+	    if (email == null)
+	        return false;
+	    return pat.matcher(email).matches();
+	}
+
+	private boolean isValidPassword(String password) {
+
+	    String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$";
+	    Pattern pat = Pattern.compile(passwordRegex);
+	    if (password == null)
+	        return false;
+	    return pat.matcher(password).matches();
+	}
+
+	private boolean isValidMobileNumber(String mobileNumber) {
+	
+	    String mobileNumberRegex = "^[6-9]\\d{9}$";
+	    Pattern pat = Pattern.compile(mobileNumberRegex);
+	    if (mobileNumber == null)
+	        return false;
+	    return pat.matcher(mobileNumber).matches();
+
+}
 }

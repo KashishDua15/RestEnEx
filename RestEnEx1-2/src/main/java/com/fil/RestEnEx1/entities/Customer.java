@@ -27,7 +27,7 @@ public class Customer {
 	private String customerPassword; 
 	@Embedded
 	private Address customerAddress;
-	private Set<UUID> customerFavourites = new LinkedHashSet<UUID>();
+	private Set<String> customerFavourites = new LinkedHashSet<String>();
 
 	public UUID getCustomerId() {
 		return customerId;
@@ -77,17 +77,17 @@ public class Customer {
 		this.customerAddress = customerAddress;
 	}
 
-	public Set<UUID> getCustomerFavourites() {
+	public Set<String> getCustomerFavourites() {
 		return customerFavourites;
 	}
 
-	public void setCustomerFavourites(Set<UUID> customerFavourites) {
+	public void setCustomerFavourites(Set<String> customerFavourites) {
 		this.customerFavourites = customerFavourites;
 	}
 
 
 	public Customer(String customerName, String customerEmail, String customerContactNumber,
-			String customerPassword, Address customerAddress, Set<UUID> customerFavourites) {
+			String customerPassword, Address customerAddress, Set<String> customerFavourites) {
 		super();
 		this.customerName = customerName;
 		this.customerEmail = customerEmail;

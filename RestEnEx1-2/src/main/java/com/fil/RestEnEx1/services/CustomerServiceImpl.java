@@ -178,13 +178,13 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public void addFavourite(UUID customerId, String restaurantName) {
-		Restaurant restaurant = restaurantDao.findByRestaurantName(restaurantName);
+	public Customer addFavourite(UUID customerId, String restaurantName) {
 		Customer customer = customerDao.findById(customerId).get();
-		Set<UUID> customerFavourites = customer.getCustomerFavourites();
-		customerFavourites.add(restaurant.getRestaurantId());
+		Set<String> customerFavourites = customer.getCustomerFavourites();
+		customerFavourites.add(restaurantName);
 		customer.setCustomerFavourites(customerFavourites);
 		customerDao.saveAndFlush(customer);
+		return customer;
 		
 	}
 

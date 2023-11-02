@@ -69,10 +69,10 @@ public class CustomerController {
 	public String customerSignIn() {
 		return "SignInCustomer";
 	}
-	
 	@PostMapping("/customer/signin")
-	public String ownerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword,HttpServletRequest request) {
+	public ModelAndView ownerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword,HttpServletRequest request) {
 		HttpSession session = request.getSession();
+		ModelAndView modelAndView = new ModelAndView();
 		Customer customer =	customerService.customerSignIn(customerEmail,customerPassword);
 	if (customer != null) {
 		customerDetails.setCustomer(customer);
@@ -80,9 +80,13 @@ public class CustomerController {
 		customerDetails.setRestaurants(customerService.getAllRestaurants());
 		session.setAttribute("customerDetails", customerDetails);
 		System.out.println("Session"+session.getAttribute("customerDetails"));
-		return "CustomerMainPage"; 
+
+	    modelAndView.addObject("customerDetails", customerDetails);
+	    modelAndView.setViewName("CustomerMainPage");
+		return modelAndView; 
     } else {
-    	return "error";
+    	modelAndView.setViewName("error");
+    	return modelAndView;
     }
 	}
 
@@ -97,6 +101,11 @@ public class CustomerController {
 		Optional<Restaurant> restaurant = customerService.getRestaurantById(restaurantId);
 		return "restaurant";
 	}
+	
+	@GetMapping("/restaurants/{restaurantId}/booktable")
+	public String customerRestaurantPage() {
+		return "index";
+	}
 
 	@PostMapping("/restaurants/{restaurantId}/booktable")
 	public String bookTable(@PathVariable UUID restaurantId, @RequestBody CustomerOrders order, HttpSession session) {
@@ -108,7 +117,7 @@ public class CustomerController {
 		CustomerOrders orderConfirmed = customerService.bookTable(restaurantId, id, order);
 		if(orderConfirmed==null)
 			return null;
-		return "bookTable";
+		return "index";
 
 	}
 	@GetMapping("/repeatOrder")
@@ -122,17 +131,24 @@ public class CustomerController {
 		return "bookTable";
 	}
 	
-	@GetMapping("/restaurants/{area}")
-	public ResponseEntity<List<Restaurant>> getRestaurantByArea(@PathVariable String area) {
+	@GetMapping("/restaurants/area")
+	public ModelAndView getRestaurantByArea(@RequestParam String area) {
 		List<Restaurant> restaurants = customerService.getResstaurantsByArea(area);
 		System.out.println("REST"+restaurants);
-		return ResponseEntity.ok(restaurants); 
+		ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.addObject("restaurants", restaurants);
+
+	    modelAndView.setViewName("CustomerMainPage");
+		return modelAndView; 
 	}
 	
-	@PostMapping("/favourites")
-	public String addFavourite(@RequestBody LinkedHashMap<String, String> object, HttpSession session) {
-		Customer customer = (Customer)session.getAttribute("userCustomer");
-		customerService.addFavourite(customer.getCustomerId(), object.get("restaurantName").toString());
+	@PostMapping("/addtofavourites")
+	public String addFavourite(@RequestParam String restaurantName, HttpSession session) {
+		CustomerMainPageDetails customerDetails = (CustomerMainPageDetails)session.getAttribute("customerDetails");
+		Customer customer = customerDetails.getCustomer();
+		customerDetails.setCustomer(customerService.addFavourite(customer.getCustomerId(), restaurantName ));
+		session.setAttribute("customerDetails", customerDetails);
+		System.out.println("Favourites Customer Details"+customerDetails);
 		return "";
 	}
 	

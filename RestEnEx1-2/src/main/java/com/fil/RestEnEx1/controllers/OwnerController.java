@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,64 +34,76 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class OwnerController {
-	
+
 	ObjectMapper mapper = new ObjectMapper();
 
-	
 	@Autowired
 	private OwnerService ownerService;
-	
+
 	@GetMapping("/owner/signup")
 	public String ownerSignUp() {
-		return"SignUpOwner";
+		return "SignUpOwner";
 	}
-	@PostMapping("/owner/signup")
-	public ResponseEntity<HttpStatus> ownerSignUp(@RequestBody Owner owner) throws ValidationException{
-		
-			ownerService.ownerSignUp(owner);
 
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK );
-		}
-	
+	@PostMapping("/owner/signup")
+
+	public String ownerSignUp(@ModelAttribute("owner") Owner owner) throws ValidationException {
+		System.out.println("Owner signup" + owner);
+		ownerService.ownerSignUp(owner);
+
+		return "SignUpOwner";
+	}
+
+
 	@GetMapping("/owner/signin")
 	public String ownerSignIn() {
-		return"SignInOwner";
-		}
-	
+		return "SignInOwner";
+	}
+
 	@PostMapping("/owner/signin")
-	public ResponseEntity<HttpStatus> ownerSignIn(@RequestBody LinkedHashMap<String, String> object, HttpSession session){
-		Restaurant restaurant = ownerService.ownerSignIn(object.get("email").toString(), object.get("password").toString());
-		if(restaurant==null)
-		return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
-		session.setAttribute("userOwnerRestaurant", restaurant);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK );
+
+	public String ownerSignIn(@RequestParam String emailId, @RequestParam String password,HttpSession session) {
+		Restaurant restaurant=ownerService.ownerSignIn(emailId, password);
+		if ( restaurant != null) {
+			session.setAttribute("userOwnerRestaurant", restaurant);
+		
+			return "SignInOwner";
+		}
+		return "error";
 	}
-	
+
 	@PostMapping("/owner/addrestaurant")
-	public ResponseEntity<HttpStatus> addRestaurant(@RequestBody Restaurant restaurant){
-		if(ownerService.addRestaurant(restaurant)==null)
-		return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
+	public ResponseEntity<HttpStatus> addRestaurant(@RequestBody Restaurant restaurant) {
+		if(ownerService.addRestaurant(restaurant) == null)
+			return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-	
+
 	}
+	@GetMapping("/owner/addmenu")
+	public String addMenu() {
+		return "MenuItem";
+	}
+	
 	
 	@PostMapping("/owner/addmenu")
 	public String  addMenu(@RequestBody MenuItem menuItem, HttpSession session){
 		Restaurant restaurant = (Restaurant)session.getAttribute("userOwnerRestaurant");
 		System.out.println(restaurant.getRestaurantId());
 		ownerService.addMenuItem(restaurant.getRestaurantId(), menuItem);
+
 		return "menu added successfully";
-		
+
 	}
-	
+
 	@GetMapping("/owner/getOrder/{orderId}")
-	public ResponseEntity<HttpStatus> getOrder(@RequestParam UUID orderId){
-		if(ownerService.getOrder(orderId)!=null) {
+	public ResponseEntity<HttpStatus> getOrder(@RequestParam UUID orderId) {
+		if(ownerService.getOrder(orderId) != null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
 		}
 	}
+
 	
 	@PostMapping("owner/updateavailableseat")
 	public ResponseEntity<HttpStatus> updateAvailableSeats(@RequestBody String availableNoOfSeats, HttpSession session){
@@ -99,6 +112,7 @@ public class OwnerController {
 			JsonNode availableSeat = mapper.readTree(availableNoOfSeats);
 			Restaurant restaurant = (Restaurant)session.getAttribute("userOwnerRestaurant");
 			ownerService.updateAvailableSeats(restaurant.getRestaurantId(), Integer.parseInt(availableSeat.get("restaurantAvailableSeats").asText()));
+
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,18 +120,22 @@ public class OwnerController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-		
+
 	}
+
 	
 	@PostMapping("owner/updatetotalseat")
 	public ResponseEntity<HttpStatus> updateTotalSeats(@RequestBody String updateTotalSeats, HttpSession session){
 		
+
 		try {
 			JsonNode totalSeat = mapper.readTree(updateTotalSeats);
+
 			Restaurant restaurant = (Restaurant)session.getAttribute("userOwnerRestaurant");
 			ownerService.updateAvailableSeats(restaurant.getRestaurantId(), Integer.parseInt(totalSeat.get("restaurantTotalSeats").asText()));
+
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,15 +145,11 @@ public class OwnerController {
 		}
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
-	
+
 	@GetMapping("owner/getAllOrders")
-	public ResponseEntity<HttpStatus> getAllOrder(){
+	public ResponseEntity<HttpStatus> getAllOrder() {
 		ownerService.getAllOrders();
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-		
+
 	}
 }
-
-
-
-

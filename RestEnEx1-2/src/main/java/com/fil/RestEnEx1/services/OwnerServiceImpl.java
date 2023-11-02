@@ -19,6 +19,8 @@ import com.fil.RestEnEx1.entities.Owner;
 import com.fil.RestEnEx1.entities.CustomerOrders;
 import com.fil.RestEnEx1.entities.Restaurant;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class OwnerServiceImpl implements OwnerService{
 	
@@ -120,11 +122,12 @@ public class OwnerServiceImpl implements OwnerService{
 		}
 		else
 		{
+      r.setOwner(owner);
 			restaurantDao.saveAndFlush(r);
 			owner.setPassword(SHA256Util.getSHA256(owner.getPassword()));
 			ownerDao.saveAndFlush(owner);
 		}
-	}
+
 
 	private boolean isValidEmail(String email) {
 	    String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";

@@ -36,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService{
 	
 
 //	@Override
-	public List<Restaurant> getAllRestaurantNames(){
+	public List<Restaurant> getAllRestaurants(){
 		return restaurantDao.findAll();
 	}
 
@@ -48,12 +48,13 @@ public class CustomerServiceImpl implements CustomerService{
 	@Override
 	public Customer customerSignIn(String customerEmail, String customerPassword) {
 		Customer customer = customerDao.findByCustomerEmail(customerEmail);
+		System.out.println("Signin"+customer);
 		if(customer!=null) {
 			String encryptedpass = SHA256Util.getSHA256(customerPassword);
 			System.out.println("Encrpted"+encryptedpass);
 			if(customer.getCustomerPassword().equals(encryptedpass))
 				{
-					
+				System.out.println("Signin2"+customer);
 					return customer;
 				}
 		}
@@ -194,6 +195,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 		return menubycategory;
 	}
+
 	
 	
 	private boolean isValidEmail(String email) {
@@ -222,4 +224,12 @@ public class CustomerServiceImpl implements CustomerService{
 	    return pat.matcher(mobileNumber).matches();
 
 }
+  
+  
+	@Override
+	public List<CustomerOrders> getOrderHistory(UUID customerId) {
+		List<CustomerOrders> orderHistory = customerOrdersDao.findAllByCustomerId(customerId);
+		return orderHistory;
+	}
+  
 }

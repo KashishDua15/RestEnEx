@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fil.RestEnEx1.dao.CustomerDao;
 import com.fil.RestEnEx1.entities.Customer;
-
+import com.fil.RestEnEx1.entities.CustomerMainPageDetails;
 import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.MenuItemDTO;
 
@@ -31,6 +32,7 @@ import com.fil.RestEnEx1.services.CustomerService;
 import com.fil.RestEnEx1.services.OwnerService;
 import com.fil.RestEnEx1.services.ValidationException;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -38,10 +40,15 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
+	private CustomerMainPageDetails customerDetails = new CustomerMainPageDetails() ;
 	
 	@GetMapping("/home")
-	public String home() {
-		return"index";
+	public ModelAndView home(HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.addObject("customerDetails", (CustomerMainPageDetails)session.getAttribute("customerDetails"));
+	    
+	    modelAndView.setViewName("CustomerMainPage");
+	    return modelAndView;
 	}
 	
 	@GetMapping("/customer/signup")
@@ -50,32 +57,38 @@ public class CustomerController {
 	}
 
 	@PostMapping("/customer/signup")
-//	public String customerSignUp(@ModelAttribute("customer") Customer customer) {
-	public String customerSignUp(@RequestBody Customer customer) throws ValidationException {
+	public String customerSignUp(@ModelAttribute("customer") Customer customer) throws ValidationException {
+	//public String customerSignUp(@RequestBody Customer customer) {
+
 		System.out.println("Customer signup"+customer);
 		customerService.customerSignUp(customer);
-		return "SignUpCustomer";
+		return "CustomerMainPage";
 	}
 	
 	@GetMapping("/customer/signin")
-	public String ownerSignIn() {
+	public String customerSignIn() {
 		return "SignInCustomer";
 	}
 	
 	@PostMapping("/customer/signin")
-	public String customerSignIn(@RequestBody LinkedHashMap<String, String> object,  HttpSession session) throws Exception {
-	Customer customer =	customerService.customerSignIn(object.get("email").toString(), object.get("password").toString());
+	public String ownerSignIn(@RequestParam String customerEmail, @RequestParam String customerPassword,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Customer customer =	customerService.customerSignIn(customerEmail,customerPassword);
 	if (customer != null) {
-		session.setAttribute("userCustomer", customer);
-        return "SignInCustomer"; 
+		customerDetails.setCustomer(customer);
+		customerDetails.setOrderHistory(customerService.getOrderHistory(customer.getCustomerId()));
+		customerDetails.setRestaurants(customerService.getAllRestaurants());
+		session.setAttribute("customerDetails", customerDetails);
+		System.out.println("Session"+session.getAttribute("customerDetails"));
+		return "CustomerMainPage"; 
     } else {
-    	 throw new Exception("Not a valid user");
+    	return "error";
     }
 	}
 
 	@GetMapping("/restaurants")
 	public String getAllRestaurantNames() {
-		customerService.getAllRestaurantNames();
+		customerService.getAllRestaurants();
 		return "getRestaurant";
 	}
 
@@ -87,17 +100,22 @@ public class CustomerController {
 
 	@PostMapping("/restaurants/{restaurantId}/booktable")
 	public String bookTable(@PathVariable UUID restaurantId, @RequestBody CustomerOrders order, HttpSession session) {
-		Customer customer = (Customer)session.getAttribute("userCustomer");
-		CustomerOrders orderConfirmed = customerService.bookTable(restaurantId, customer.getCustomerId(), order);
+		System.out.println("Session set"+session.getAttribute("customerDetails"));
+		CustomerMainPageDetails customerDetails = (CustomerMainPageDetails)session.getAttribute("customerDetails");
+		System.out.println("Session set"+customerDetails);
+		Customer customer = customerDetails.getCustomer();
+		UUID id = UUID.fromString("f15b51a2-fc9d-4e1e-82d5-bb81e86d8009");
+		CustomerOrders orderConfirmed = customerService.bookTable(restaurantId, id, order);
 		if(orderConfirmed==null)
 			return null;
 		return "bookTable";
 
 	}
-	
 	@GetMapping("/repeatOrder")
 	public String repeatLastOrder(HttpSession session) {
-		Customer customer = (Customer)session.getAttribute("userCustomer");
+		CustomerMainPageDetails customerDetails = (CustomerMainPageDetails)session.getAttribute("customerDetails");
+		Customer customer = customerDetails.getCustomer();
+		System.out.println("FUCKKK"+customerDetails);
 		CustomerOrders orderConfirmed = customerService.repeatOrder(customer.getCustomerId());
 		if(orderConfirmed==null)
 			return null;
@@ -124,6 +142,13 @@ public class CustomerController {
 		List<MenuItemDTO> menu = customerService.getMenuByCategory(restaurantId, category);
 		System.out.println(menu);
 		return ResponseEntity.ok(menu);//menu;
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+	    // Invalidate the session
+	    session.invalidate();
+	    return "logged_out";
 	}
 	
 

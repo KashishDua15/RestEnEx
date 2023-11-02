@@ -12,7 +12,7 @@ import com.fil.RestEnEx1.entities.Restaurant;
 
 public interface OwnerService {
 	
-	public void ownerSignUp(Owner owner);
+	public void ownerSignUp(Owner owner) throws ValidationException;
 	public Restaurant ownerSignIn(String email, String password);
 	public Restaurant addRestaurant(Restaurant restaurant);
 	public Restaurant updateAvailableSeats(UUID restaurantId,int availableNoOfSeats);

@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.Owner;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.services.OwnerService;
+import com.fil.RestEnEx1.services.ValidationException;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -44,12 +46,14 @@ public class OwnerController {
 	}
 
 	@PostMapping("/owner/signup")
-	public String ownerSignUp(@ModelAttribute("owner") Owner owner) {
+
+	public String ownerSignUp(@ModelAttribute("owner") Owner owner) throws ValidationException {
 		System.out.println("Owner signup" + owner);
 		ownerService.ownerSignUp(owner);
 
 		return "SignUpOwner";
 	}
+
 
 	@GetMapping("/owner/signin")
 	public String ownerSignIn() {

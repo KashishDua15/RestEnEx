@@ -39,7 +39,15 @@
 
 <body>
 
-
+<script>
+	var filter="false";
+	var clas="unclicked"
+	function filterByArea(){
+		filter="true";
+		clas="clicked";
+		window.location.reload();
+	}
+</script>
 	<!-- ======= Header ======= -->
 	<header id="header" class="d-flex align-items-center header" style="background-color: orange;">
 		<div class="container-fluid container-xl d-flex align-items-center justify-content-between">
@@ -180,12 +188,12 @@
 				<div class="section-title">
 					<h2><span>Restaurants</span></h2>
 				</div>
-<!--				<form method="get" th:action="@{/restaurants/area">
+				<form method="post" th:action="@{/restaurants/area}">
 					<input type="text" id="area" name="area" class="fadeIn second" placeholder="Area" />
-					<button type="submit" id="repeatOrder" class="book-a-table-header-btn scrollto"
-						style="margin-bottom: 25px;">
+					<button type="submit" id="area" class="book-a-table-header-btn scrollto "+${clas}
+						style="margin-bottom: 25px;" th:attr="onclick=|filterByArea()|">
 						Filter by Area</button>
-				</form>-->
+				</form>
 
 				<div class="row">
 					<th:block th:each="restaurant: ${customerDetails.restaurants}">

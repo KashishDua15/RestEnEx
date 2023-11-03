@@ -63,7 +63,7 @@ public class CustomerController {
 
 		System.out.println("Customer signup"+customer);
 		customerService.customerSignUp(customer);
-		return "CustomerMainPage";
+		return "SignInCustomer";
 	}
 	
 	@GetMapping("/customer/signin")
@@ -135,32 +135,39 @@ public class CustomerController {
 	public String repeatLastOrder(HttpSession session) {
 		CustomerMainPageDetails customerDetails = (CustomerMainPageDetails)session.getAttribute("customerDetails");
 		Customer customer = customerDetails.getCustomer();
-		System.out.println("FUCKKK"+customerDetails);
 		CustomerOrders orderConfirmed = customerService.repeatOrder(customer.getCustomerId());
 		if(orderConfirmed==null)
 			return null;
 		return "bookTable";
 	}
 	
-	@GetMapping("/restaurants/area")
+	@PostMapping("/restaurants/area")
 	public ModelAndView getRestaurantByArea(@RequestParam String area) {
-		List<Restaurant> restaurants = customerService.getResstaurantsByArea(area);
-		System.out.println("REST"+restaurants);
+		System.out.println("AREAAA"+area);
+		List<Restaurant> restaurants;
+		if(area.equalsIgnoreCase("") || area==null)
+			restaurants = customerService.getAllRestaurants();	
+		else
+			restaurants = customerService.getResstaurantsByArea(area);
+			
 		ModelAndView modelAndView = new ModelAndView();
-	    modelAndView.addObject("restaurants", restaurants);
-
+		customerDetails.setRestaurants(restaurants);
+	    modelAndView.addObject("customerDetails", customerDetails);
+	    System.out.println("MODEL AND VIEWW"+modelAndView.getModelMap());
 	    modelAndView.setViewName("CustomerMainPage");
 		return modelAndView; 
 	}
 	
 	@PostMapping("/addtofavourites")
-	public String addFavourite(@RequestParam String restaurantName, HttpSession session) {
+	public ModelAndView addFavourite(@RequestParam String restaurantName, HttpSession session) {
 		CustomerMainPageDetails customerDetails = (CustomerMainPageDetails)session.getAttribute("customerDetails");
 		Customer customer = customerDetails.getCustomer();
+		ModelAndView modelAndView = new ModelAndView();
 		customerDetails.setCustomer(customerService.addFavourite(customer.getCustomerId(), restaurantName ));
-		session.setAttribute("customerDetails", customerDetails);
+		modelAndView.addObject("customerDetails", customerDetails);
 		System.out.println("Favourites Customer Details"+customerDetails);
-		return "";
+		modelAndView.setViewName("CustomerMainPage");
+		return modelAndView;
 	}
 	
 	@GetMapping("/menufilter/{restaurantId}")

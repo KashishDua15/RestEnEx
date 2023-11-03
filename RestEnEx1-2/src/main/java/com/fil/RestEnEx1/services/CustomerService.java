@@ -12,7 +12,7 @@ import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.MenuItemDTO;
 
 import com.fil.RestEnEx1.entities.CustomerOrders;
-
+import com.fil.RestEnEx1.entities.Menu;
 import com.fil.RestEnEx1.entities.Restaurant;
 
 public interface CustomerService {
@@ -27,5 +27,6 @@ public interface CustomerService {
 	public Customer addFavourite(UUID customerId,String restaurantName);
 	public List<MenuItemDTO> getMenuByCategory(UUID customerId,String catagory);
 	public List<CustomerOrders> getOrderHistory(UUID customerId);
+	public Menu getRestaurantMenu(Restaurant restaurant);
 
 }

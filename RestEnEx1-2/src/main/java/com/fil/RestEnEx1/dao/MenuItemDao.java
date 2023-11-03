@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.MenuItemDTO;
+import com.fil.RestEnEx1.entities.Restaurant;
 
 @Repository
 public interface MenuItemDao extends JpaRepository<MenuItem , UUID>{
@@ -19,5 +20,6 @@ public interface MenuItemDao extends JpaRepository<MenuItem , UUID>{
 //	@Query("SELECT item_name FROM menu_item WHERE restaurant_id = UUID_TO_BIN(:restaurantId) AND category = :category")
 	@Query("SELECT new com.fil.RestEnEx1.entities.MenuItemDTO(m.itemName,m.itemPrice) FROM MenuItem m WHERE m.restaurant.id = :restaurantId AND m.category = :category")
 	List<MenuItemDTO> findByCategory(@Param("restaurantId") UUID restaurantId, @Param("category") String category);
+	List<MenuItem> findAllByRestaurant(Restaurant restaurant);
 	
 }

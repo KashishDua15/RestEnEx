@@ -7,7 +7,16 @@ public class CustomerMainPageDetails {
 	List<CustomerOrders> orderHistory;
 	List<Restaurant> restaurants;
 	Restaurant restaurant;
+	Menu menu;
 	
+	
+	
+	public Menu getMenu() {
+		return menu;
+	}
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
@@ -32,12 +41,16 @@ public class CustomerMainPageDetails {
 	public void setRestaurants(List<Restaurant> restaurants) {
 		this.restaurants = restaurants;
 	}
-	public CustomerMainPageDetails(Customer customer, List<CustomerOrders> orderHistory, List<Restaurant> restaurants, Restaurant restaurant) {
+	
+	
+	public CustomerMainPageDetails(Customer customer, List<CustomerOrders> orderHistory, List<Restaurant> restaurants,
+			Restaurant restaurant, Menu menu) {
 		super();
 		this.customer = customer;
 		this.orderHistory = orderHistory;
 		this.restaurants = restaurants;
 		this.restaurant = restaurant;
+		this.menu = menu;
 	}
 	public CustomerMainPageDetails() {
 		super();

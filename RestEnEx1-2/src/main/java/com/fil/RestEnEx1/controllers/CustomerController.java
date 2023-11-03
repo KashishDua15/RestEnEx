@@ -107,9 +107,11 @@ public class CustomerController {
 	public ModelAndView customerRestaurantPage(@PathVariable String restaurantId, HttpSession sessions) {
 		ModelAndView modelAndView = new ModelAndView();
 		System.out.println("Session"+sessions.getAttribute("customerDetails"));
-		customerDetails.setRestaurant(customerService.getRestaurantById(UUID.fromString(restaurantId)));
+		Restaurant restaurant = customerService.getRestaurantById(UUID.fromString(restaurantId));
+		customerDetails.setRestaurant(restaurant);
+		customerDetails.setMenu(customerService.getRestaurantMenu(restaurant));
+		System.out.println("CUSTOMERRRRRRRRRR DETAILSSSS"+customerDetails.getMenu().getMaincourse());
 		modelAndView.addObject("customerDetails", customerDetails);
-		System.out.println("RESTAURANTID"+restaurantId+" "+customerDetails);
 		restaurantIdForBooking = UUID.fromString(restaurantId);
 		modelAndView.setViewName("index");
 		
@@ -123,6 +125,7 @@ public class CustomerController {
 		System.out.println("Session set"+modelAndView.getModelMap()+" "+session.getAttribute("customerDetails"));
 
 		Customer customer = customerDetails.getCustomer();
+		
 		modelAndView.addObject("customerDetails", customerDetails);
 		modelAndView.setViewName("index");
 		CustomerOrders orderConfirmed = customerService.bookTable(restaurantIdForBooking, customer.getCustomerId(), order);

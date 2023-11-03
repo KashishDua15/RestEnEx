@@ -61,7 +61,7 @@ public class OwnerServiceImpl implements OwnerService{
 
 	public void addMenuItem(UUID restaurantId,MenuItem menuItem) {
 		Restaurant res=restaurantDao.findById(restaurantId).get();
-		System.out.println(res);
+		System.out.println(res+"MEnu"+menuItem);
 		menuItem.setRestaurant(res);
 		System.out.println(menuItem.getRestaurant());
 		menuitemdao.saveAndFlush(menuItem);

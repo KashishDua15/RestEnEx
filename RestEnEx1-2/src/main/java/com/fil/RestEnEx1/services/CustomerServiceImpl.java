@@ -1,5 +1,6 @@
 package com.fil.RestEnEx1.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,8 @@ import com.fil.RestEnEx1.dao.RestaurantOrdersDao;
 import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.MenuItemDTO;
 import com.fil.RestEnEx1.entities.CustomerOrders;
+import com.fil.RestEnEx1.entities.Menu;
+import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.Restaurant;
 import com.fil.RestEnEx1.entities.RestaurantOrders;
 
@@ -236,6 +239,24 @@ public class CustomerServiceImpl implements CustomerService{
 	public List<CustomerOrders> getOrderHistory(UUID customerId) {
 		List<CustomerOrders> orderHistory = customerOrdersDao.findAllByCustomerId(customerId);
 		return orderHistory;
+	}
+
+	@Override
+	public Menu getRestaurantMenu(Restaurant restaurant) {
+		List<MenuItem> menuItems = menuitemdao.findAllByRestaurant(restaurant);
+		List<MenuItem>starters = new ArrayList<MenuItem>();
+		List<MenuItem>maincourse = new ArrayList<MenuItem>();
+		List<MenuItem>deserts = new ArrayList<MenuItem>();
+		for(MenuItem item:menuItems) {
+			if(item.getCategory().equalsIgnoreCase("starters"))
+				starters.add(item);
+			else if(item.getCategory().equalsIgnoreCase("maincourse"))
+				maincourse.add(item);
+			else
+				deserts.add(item);
+		}
+		
+		return new Menu(starters, maincourse,deserts);
 	}
   
 }

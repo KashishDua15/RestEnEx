@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fil.RestEnEx1.dao.RestaurantDao;
 import com.fil.RestEnEx1.entities.Customer;
 import com.fil.RestEnEx1.entities.MenuItem;
 import com.fil.RestEnEx1.entities.Owner;
@@ -39,6 +40,8 @@ public class OwnerController {
 
 	@Autowired
 	private OwnerService ownerService;
+	
+	private RestaurantDao restaurantDao;
 
 	@GetMapping("/owner/signup")
 	public String ownerSignUp() {
@@ -85,11 +88,23 @@ public class OwnerController {
 	}
 	
 	
-	@PostMapping("/owner/addmenu")
-	public String  addMenu(@RequestBody MenuItem menuItem, HttpSession session){
-		Restaurant restaurant = (Restaurant)session.getAttribute("userOwnerRestaurant");
-		System.out.println(restaurant.getRestaurantId());
-		ownerService.addMenuItem(restaurant.getRestaurantId(), menuItem);
+	/*
+	 * @PostMapping("/owner/addmenu") public String
+	 * addMenu(@RequestBody MenuItem menuItem, HttpSession session){ Restaurant
+	 * restaurant = (Restaurant)session.getAttribute("userOwnerRestaurant");
+	 * System.out.println(restaurant.getRestaurantId());
+	 * ownerService.addMenuItem(restaurant.getRestaurantId(), menuItem);
+	 * 
+	 * return "menu added successfully";
+	 * 
+	 * }
+	 */
+	
+	@PostMapping("/owner/{restaurantId}/addmenu")
+	public String  addMenu(@PathVariable UUID restaurantId,@RequestBody MenuItem menuItem, HttpSession session){
+		
+		ownerService.addMenuItem(restaurantId, menuItem);
+		System.out.println();
 
 		return "menu added successfully";
 
